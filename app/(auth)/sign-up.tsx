@@ -96,7 +96,7 @@ export default function Register() {
 
               {/* TITLE */}
               <Text className="text-2xl font-bold text-center mt-28 mb-8 text-gray-800">
-                {isVerifyStep ? "Verify code" : "Sign Up !"}
+                {isVerifyStep ? "Verify code" : "Create Account"}
               </Text>
 
               {/* ERROR */}

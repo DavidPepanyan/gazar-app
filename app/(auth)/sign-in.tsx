@@ -103,7 +103,7 @@ export default function SignIn() {
 
               {/* TITLE */}
               <Text className="text-2xl font-bold text-center mt-28 mb-8 text-gray-800">
-                {isMfaStep ? "Verify code" : "Welcome back"}
+                {isMfaStep ? "Verify code" : "Welcome Back !"}
               </Text>
 
               {/* ERROR */}
