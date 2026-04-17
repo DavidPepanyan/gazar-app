@@ -5,6 +5,7 @@ export default function TabsLayout() {
     <Tabs>
       <Tabs.Screen name="home" options={{ headerShown: false }} />
       <Tabs.Screen name="shop" options={{ headerShown: false }} />
+      
     </Tabs>
   );
 }
