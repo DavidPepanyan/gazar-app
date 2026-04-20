@@ -1,0 +1,987 @@
+---
+alwaysApply: true
+---
+
+---
+alwaysApply: true
+---
+
+# React Native Expo Project - Cursor Rules
+
+## Complete Tech Stack
+- **Framework**: React Native with Expo SDK 52+
+- **Routing**: Expo Router (file-based routing)
+- **Styling**: Uniwind (Tailwind CSS v4 for React Native)
+- **State Management**: Zustand + Immer middleware
+- **Data Fetching**: TanStack Query (React Query)
+- **Forms & Validation**: React Hook Form + Zod
+- **Lists**: FlashList
+- **Animations**: React Native Reanimated
+- **Gestures**: React Native Gesture Handler
+- **Storage**: React Native MMKV
+- **Images**: Expo Image
+- **Safe Areas**: React Native Safe Area Context
+- **Internationalization**: i18next + expo-localization
+- **Deployment**: EAS (Expo Application Services)
+- **Monitoring**: Sentry
+- **Language**: TypeScript (strict mode)
+
+---
+
+## 🎯 Core Principles
+
+### TypeScript First
+- **ALWAYS** use TypeScript with `strict: true`
+- **NEVER** use `any` - use `unknown` or proper types
+- Prefer `interface` for object shapes, `type` for unions/intersections
+- Export all shared types and interfaces
+- Use proper generic constraints
+- Leverage `z.infer<typeof schema>` for form types
+
+### Component Philosophy
+- Functional components with hooks only - NO class components
+- Keep components under 300 lines - split if larger
+- One component per file (except tightly coupled sub-components)
+- Use `memo()` for expensive components
+- Extract business logic into custom hooks
+- Prefer composition over prop drilling
+
+### Code Quality
+- Prefer `const` over `let`, **NEVER** `var`
+- Use arrow functions for components and callbacks
+- Use `useCallback` for functions passed as props
+- Use `useMemo` for expensive calculations
+- **NEVER** use inline styles or `StyleSheet.create()` - use Uniwind `className`
+- No `console.log` in production code
+
+---
+
+## 📁 Project Structure
+
+```
+app/
+├── (tabs)/                 # Tab-based navigation
+│   ├── index.tsx          # Home screen
+│   ├── settings.tsx       # Settings screen
+│   └── _layout.tsx        # Tab layout with icons
+├── (auth)/                # Auth flow (modal/stack)
+│   ├── login.tsx
+│   ├── register.tsx
+│   ├── forgot-password.tsx
+│   └── _layout.tsx
+├── (modal)/               # Modal screens
+│   ├── user-details.tsx
+│   └── _layout.tsx
+├── [id]/                  # Dynamic routes
+│   └── details.tsx
+├── _layout.tsx            # Root layout (providers)
+└── +not-found.tsx         # 404 screen
+
+src/
+├── components/
+│   ├── ui/                # Base UI components
+│   │   ├── Button.tsx
+│   │   ├── Input.tsx
+│   │   ├── Card.tsx
+│   │   ├── Avatar.tsx
+│   │   └── LoadingSpinner.tsx
+│   ├── forms/             # Form components
+│   │   ├── LoginForm.tsx
+│   │   └── ProfileForm.tsx
+│   ├── shared/            # Shared components
+│   │   ├── Header.tsx
+│   │   ├── ErrorBoundary.tsx
+│   │   └── SafeAreaView.tsx
+│   └── animated/          # Animated components
+│       ├── FadeIn.tsx
+│       └── SlideIn.tsx
+├── hooks/                 # Custom hooks
+│   ├── useDebounce.ts
+│   ├── useProtectedRoute.ts
+│   ├── useTheme.ts
+│   └── useTranslation.ts  # i18n wrapper
+├── store/                 # Zustand stores
+│   ├── auth.store.ts
+│   ├── user.store.ts
+│   ├── theme.store.ts
+│   └── language.store.ts
+├── services/              # API services
+│   ├── api.ts             # Axios instance
+│   ├── auth.service.ts
+│   └── user.service.ts
+├── utils/                 # Utilities
+│   ├── storage.ts         # MMKV wrapper
+│   ├── formatters.ts
+│   ├── validators.ts
+│   └── i18n.ts            # i18n config
+├── constants/             # Constants
+│   ├── api.ts
+│   ├── config.ts
+│   └── languages.ts
+├── types/                 # TypeScript types
+│   ├── user.types.ts
+│   ├── api.types.ts
+│   └── navigation.types.ts
+└── locales/               # Translation files
+    ├── en.json
+    ├── ru.json
+    ├── hy.json
+    └── index.ts
+
+assets/
+├── fonts/
+├── images/
+└── icons/
+
+global.css                 # Uniwind / Tailwind v4 theme & utilities
+metro.config.js            # withUniwindConfig wrapper
+```
+
+---
+
+## 🎨 Uniwind Styling
+
+### Setup
+```javascript
+// metro.config.js
+const { getDefaultConfig } = require('expo/metro-config');
+const { withUniwindConfig } = require('uniwind/metro');
+
+const config = getDefaultConfig(__dirname);
+
+module.exports = withUniwindConfig(config, {
+  cssEntryFile: './global.css',
+});
+```
+
+```css
+/* global.css */
+@import "tailwindcss";
+
+@layer theme {
+  :root {
+    --color-primary: #007AFF;
+    --color-background: #FFFFFF;
+    --color-surface: #F2F2F7;
+    --color-foreground: #000000;
+    --color-muted: #8E8E93;
+    --color-border: #C6C6C8;
+    --color-error: #FF3B30;
+
+    @variant dark {
+      --color-primary: #0A84FF;
+      --color-background: #000000;
+      --color-surface: #1C1C1E;
+      --color-foreground: #FFFFFF;
+      --color-muted: #8E8E93;
+      --color-border: #38383A;
+      --color-error: #FF453A;
+    }
+  }
+}
+
+/* Custom semantic classes */
+@layer components {
+  .btn-primary {
+    background-color: var(--color-primary);
+    padding-horizontal: 24px;
+    padding-vertical: 12px;
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card {
+    background-color: var(--color-surface);
+    border-radius: 12px;
+    padding: 16px;
+  }
+}
+```
+
+### Basic Usage
+```typescript
+// ✅ GOOD - Uniwind className
+<View className="flex-1 bg-background p-4">
+  <Text className="text-lg font-bold text-foreground mb-2">
+    Hello, Tailwind!
+  </Text>
+  <Pressable className="btn-primary">
+    <Text className="text-white font-semibold text-base">Submit</Text>
+  </Pressable>
+</View>
+
+// ❌ BAD - StyleSheet.create()
+const styles = StyleSheet.create({ container: { flex: 1, padding: 16 } });
+<View style={styles.container} />
+
+// ❌ BAD - inline styles
+<View style={{ flex: 1, padding: 16 }} />
+```
+
+### Platform-Specific Variants
+```typescript
+// Platform selectors built into className
+<View className="bg-white ios:bg-gray-50 android:bg-gray-100" />
+
+// Safe area with Uniwind utilities
+<View className="pt-safe pb-safe flex-1 bg-background" />
+```
+
+### Dark Mode
+```typescript
+// Dark mode works automatically via CSS variables
+<View className="bg-background">
+  <Text className="text-foreground">Auto dark/light text</Text>
+  <Text className="text-muted">Secondary text</Text>
+</View>
+
+// Explicit dark variant
+<View className="bg-white dark:bg-zinc-900" />
+```
+
+### Responsive Design
+```typescript
+// Media queries
+<View className="p-4 sm:p-6 lg:p-8" />
+<Text className="text-base md:text-lg lg:text-xl" />
+```
+
+### Theme Store with Uniwind
+```typescript
+// src/store/theme.store.ts
+import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { zustandStorage } from '@/utils/storage';
+
+type Theme = 'light' | 'dark' | 'system';
+
+interface ThemeState {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+}
+
+export const useThemeStore = create<ThemeState>()(
+  persist(
+    (set) => ({
+      theme: 'system',
+      setTheme: (theme) => set({ theme }),
+    }),
+    {
+      name: 'theme-storage',
+      storage: createJSONStorage(() => zustandStorage),
+    }
+  )
+);
+```
+
+---
+
+## 🧭 Expo Router
+
+### File-Based Routing
+- Use `(group)` for route groups (tabs, auth, modal)
+- Use `[param]` for dynamic routes
+- Use `_layout.tsx` for nested navigation
+- Use `+not-found.tsx` for 404 handling
+
+### Navigation Best Practices
+```typescript
+// ✅ GOOD - Type-safe navigation
+import { Link, useRouter, router } from 'expo-router';
+
+<Link href="/user/123">View User</Link>
+router.push({ pathname: '/user/[id]', params: { id: '123' } });
+
+// ❌ BAD - String-only navigation
+router.push('/user/123');
+```
+
+### Typed Routes
+```typescript
+import { useLocalSearchParams } from 'expo-router';
+
+// In app/user/[id].tsx
+const { id } = useLocalSearchParams<{ id: string }>();
+```
+
+### Layout Configuration
+```typescript
+// app/_layout.tsx
+import { Stack } from 'expo-router';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+export default function RootLayout() {
+  return (
+    <GestureHandlerRootView className="flex-1">
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="(auth)" options={{ presentation: 'modal' }} />
+      </Stack>
+    </GestureHandlerRootView>
+  );
+}
+```
+
+---
+
+## 🗄️ Zustand State Management
+
+### Store Structure
+- One store per domain (auth, user, theme, etc.)
+- Use `immer` middleware for nested state updates
+- Use `persist` middleware with MMKV for persistence
+- Use selectors to prevent unnecessary re-renders
+
+### Store Template
+```typescript
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { zustandStorage } from '@/utils/storage';
+
+interface AuthState {
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  
+  // Actions
+  setAuth: (user: User, token: string) => void;
+  logout: () => void;
+  updateUser: (user: Partial<User>) => void;
+}
+
+export const useAuthStore = create<AuthState>()(
+  persist(
+    immer((set) => ({
+      user: null,
+      token: null,
+      isAuthenticated: false,
+      
+      setAuth: (user, token) => 
+        set((state) => {
+          state.user = user;
+          state.token = token;
+          state.isAuthenticated = true;
+        }),
+      
+      logout: () => 
+        set((state) => {
+          state.user = null;
+          state.token = null;
+          state.isAuthenticated = false;
+        }),
+      
+      updateUser: (updates) =>
+        set((state) => {
+          if (state.user) {
+            state.user = { ...state.user, ...updates };
+          }
+        }),
+    })),
+    {
+      name: 'auth-storage',
+      storage: createJSONStorage(() => zustandStorage),
+    }
+  )
+);
+
+// Selectors (export for better performance)
+export const useUser = () => useAuthStore((state) => state.user);
+export const useToken = () => useAuthStore((state) => state.token);
+export const useIsAuth = () => useAuthStore((state) => state.isAuthenticated);
+```
+
+### Usage
+```typescript
+// ✅ GOOD - Use selectors
+const user = useUser();
+const setAuth = useAuthStore((state) => state.setAuth);
+
+// ❌ BAD - Subscribe to entire store
+const { user, setAuth } = useAuthStore();
+```
+
+---
+
+## 🔄 TanStack Query
+
+### Query Key Factory Pattern
+```typescript
+// src/services/user.service.ts
+export const userKeys = {
+  all: ['users'] as const,
+  lists: () => [...userKeys.all, 'list'] as const,
+  list: (filters: UserFilters) => [...userKeys.lists(), filters] as const,
+  details: () => [...userKeys.all, 'detail'] as const,
+  detail: (id: string) => [...userKeys.details(), id] as const,
+};
+```
+
+### Query Hooks
+```typescript
+export const useUser = (id: string) => {
+  return useQuery({
+    queryKey: userKeys.detail(id),
+    queryFn: () => fetchUser(id),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000,   // 10 minutes
+    enabled: !!id,
+  });
+};
+```
+
+### Mutation Hooks with Optimistic Updates
+```typescript
+export const useUpdateUser = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (data: UpdateUserDto) => updateUser(data),
+    
+    onMutate: async (newData) => {
+      await queryClient.cancelQueries({ queryKey: userKeys.detail(newData.id) });
+      const previous = queryClient.getQueryData(userKeys.detail(newData.id));
+      queryClient.setQueryData(userKeys.detail(newData.id), (old: User) => ({
+        ...old,
+        ...newData,
+      }));
+      return { previous };
+    },
+    
+    onError: (err, newData, context) => {
+      queryClient.setQueryData(
+        userKeys.detail(newData.id),
+        context?.previous
+      );
+    },
+    
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: userKeys.detail(variables.id) });
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() });
+    },
+  });
+};
+```
+
+---
+
+## 📝 React Hook Form + Zod
+
+### Schema Definition
+```typescript
+import { z } from 'zod';
+
+export const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, 'Email is required')
+    .email('Invalid email address'),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[A-Z]/, 'Password must contain uppercase letter')
+    .regex(/[0-9]/, 'Password must contain number'),
+});
+
+export type LoginFormData = z.infer<typeof loginSchema>;
+```
+
+### Form Implementation
+```typescript
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+export const LoginForm = ({ onSubmit }: LoginFormProps) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: '', password: '' },
+  });
+
+  return (
+    <View className="gap-4">
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            className="border border-border rounded-lg px-4 py-3 text-foreground bg-surface"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
+        )}
+      />
+      {errors.email && (
+        <Text className="text-error text-sm">{errors.email.message}</Text>
+      )}
+
+      <Pressable
+        className="btn-primary opacity-100 disabled:opacity-50"
+        onPress={handleSubmit(onSubmit)}
+        disabled={isSubmitting}
+      >
+        <Text className="text-white font-semibold text-base">
+          {isSubmitting ? 'Loading...' : 'Submit'}
+        </Text>
+      </Pressable>
+    </View>
+  );
+};
+```
+
+---
+
+## 📋 FlashList
+
+### Basic Usage
+```typescript
+import { FlashList } from '@shopify/flash-list';
+
+<FlashList
+  data={items}
+  renderItem={renderItem}
+  estimatedItemSize={100}
+  keyExtractor={(item) => item.id}
+  contentContainerClassName="p-4"
+/>
+```
+
+### Optimization
+```typescript
+// ✅ GOOD - Memoized render
+const renderItem = useCallback(
+  ({ item }: { item: Item }) => <ItemCard item={item} />,
+  []
+);
+
+const keyExtractor = useCallback((item: Item) => item.id, []);
+
+// Extract ItemCard as separate memoized component
+const ItemCard = memo(({ item }: { item: Item }) => (
+  <View className="card mb-3">
+    <Text className="text-foreground font-medium">{item.title}</Text>
+  </View>
+));
+```
+
+### Heterogeneous Lists
+```typescript
+<FlashList
+  data={items}
+  renderItem={renderItem}
+  estimatedItemSize={100}
+  getItemType={(item) => item.type} // 'header' | 'item' | 'footer'
+/>
+```
+
+---
+
+## 🎨 React Native Reanimated
+
+### Animated Values
+```typescript
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
+
+const MyComponent = () => {
+  const opacity = useSharedValue(1);
+  const translateX = useSharedValue(0);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ translateX: translateX.value }],
+  }));
+
+  const handlePress = () => {
+    opacity.value = withTiming(0.5);
+    translateX.value = withSpring(100);
+  };
+
+  return (
+    <Animated.View className="flex-1 items-center" style={animatedStyle}>
+      <Text className="text-foreground">Animated Content</Text>
+    </Animated.View>
+  );
+};
+```
+
+> **Note:** Use `className` for static styles and `style` (via `useAnimatedStyle`) only for dynamic/animated values.
+
+### Layout Animations
+```typescript
+import { Layout, FadeIn, FadeOut } from 'react-native-reanimated';
+
+<Animated.View
+  className="card"
+  entering={FadeIn.duration(300)}
+  exiting={FadeOut.duration(200)}
+  layout={Layout.springify()}
+>
+  <Text className="text-foreground">Content</Text>
+</Animated.View>
+```
+
+---
+
+## 👆 React Native Gesture Handler
+
+### Basic Gestures
+```typescript
+import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+
+const MyComponent = () => {
+  const pan = Gesture.Pan()
+    .onUpdate((e) => {
+      translateX.value = e.translationX;
+    })
+    .onEnd(() => {
+      translateX.value = withSpring(0);
+    });
+
+  return (
+    <GestureDetector gesture={pan}>
+      <Animated.View className="w-24 h-24 rounded-xl bg-primary" style={animatedStyle}>
+        <Text className="text-white text-center">Drag me!</Text>
+      </Animated.View>
+    </GestureDetector>
+  );
+};
+```
+
+---
+
+## 💾 React Native MMKV
+
+### Storage Utility
+```typescript
+// src/utils/storage.ts
+import { MMKV } from 'react-native-mmkv';
+import { StateStorage } from 'zustand/middleware';
+
+export const storage = new MMKV();
+
+export enum StorageKeys {
+  AUTH_TOKEN = 'auth_token',
+  USER_PREFS = 'user_preferences',
+  THEME = 'theme',
+  LANGUAGE = 'language',
+}
+
+export const Storage = {
+  getString: (key: StorageKeys) => storage.getString(key),
+  setString: (key: StorageKeys, value: string) => storage.set(key, value),
+  getNumber: (key: StorageKeys) => storage.getNumber(key),
+  setNumber: (key: StorageKeys, value: number) => storage.set(key, value),
+  getBoolean: (key: StorageKeys) => storage.getBoolean(key),
+  setBoolean: (key: StorageKeys, value: boolean) => storage.set(key, value),
+  
+  getObject: <T>(key: StorageKeys): T | null => {
+    const value = storage.getString(key);
+    return value ? JSON.parse(value) : null;
+  },
+  
+  setObject: <T>(key: StorageKeys, value: T) => {
+    storage.set(key, JSON.stringify(value));
+  },
+  
+  delete: (key: StorageKeys) => storage.delete(key),
+  clearAll: () => storage.clearAll(),
+};
+
+export const zustandStorage: StateStorage = {
+  setItem: (name, value) => storage.set(name, value),
+  getItem: (name) => storage.getString(name) ?? null,
+  removeItem: (name) => storage.delete(name),
+};
+```
+
+---
+
+## 🖼️ Expo Image
+
+### Best Practices
+```typescript
+import { Image } from 'expo-image';
+
+<Image
+  source={{ uri: imageUrl }}
+  contentFit="cover"
+  transition={200}
+  placeholder={blurhash}
+  className="w-full h-48 rounded-xl"
+  cachePolicy="memory-disk"
+/>
+```
+
+### Preloading
+```typescript
+await Image.prefetch(imageUrls);
+await Image.clearMemoryCache();
+await Image.clearDiskCache();
+```
+
+---
+
+## 🌍 Internationalization (i18n)
+
+### Setup
+```typescript
+// src/utils/i18n.ts
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import * as Localization from 'expo-localization';
+import { Storage, StorageKeys } from './storage';
+import en from '@/locales/en.json';
+import ru from '@/locales/ru.json';
+
+const resources = {
+  en: { translation: en },
+  ru: { translation: ru },
+};
+
+const savedLanguage = Storage.getString(StorageKeys.LANGUAGE);
+const deviceLanguage = Localization.locale.split('-')[0];
+const initialLanguage = savedLanguage || deviceLanguage || 'en';
+
+i18n.use(initReactI18next).init({
+  resources,
+  lng: initialLanguage,
+  fallbackLng: 'en',
+  interpolation: { escapeValue: false },
+});
+
+export default i18n;
+```
+
+### Usage in Components
+```typescript
+import { useTranslation } from 'react-i18next';
+
+export const LoginScreen = () => {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+    Storage.setString(StorageKeys.LANGUAGE, lang);
+  };
+
+  return (
+    <View className="flex-1 bg-background p-6">
+      <Text className="text-2xl font-bold text-foreground mb-8">
+        {t('common.welcome')}
+      </Text>
+      <Pressable
+        className="btn-primary"
+        onPress={() => changeLanguage('ru')}
+      >
+        <Text className="text-white font-semibold">Switch to Russian</Text>
+      </Pressable>
+    </View>
+  );
+};
+```
+
+---
+
+## 📱 React Native Safe Area Context
+
+### Usage
+```typescript
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+
+// Component wrapper - prefer Uniwind pt-safe / pb-safe utilities
+export const Screen = ({ children }: { children: ReactNode }) => {
+  return (
+    <SafeAreaView className="flex-1 bg-background" edges={['top', 'bottom']}>
+      {children}
+    </SafeAreaView>
+  );
+};
+
+// Hook usage when custom logic needed
+export const MyComponent = () => {
+  const insets = useSafeAreaInsets();
+  
+  return (
+    <View style={{ paddingTop: insets.top }}>
+      <Text className="text-foreground">Content</Text>
+    </View>
+  );
+};
+```
+
+---
+
+## 🚨 Sentry Error Monitoring
+
+### Setup
+```typescript
+// app/_layout.tsx
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+  enableInExpoDevelopment: false,
+  debug: __DEV__,
+  tracesSampleRate: 1.0,
+});
+
+export default Sentry.wrap(RootLayout);
+```
+
+### Error Tracking
+```typescript
+try {
+  await riskyOperation();
+} catch (error) {
+  Sentry.captureException(error, {
+    tags: { screen: 'UserProfile' },
+    extra: { userId: user.id },
+  });
+  Alert.alert('Error', 'Something went wrong');
+}
+```
+
+---
+
+## ⚡ Performance Optimization
+
+### React Optimization
+```typescript
+// ✅ Memoize expensive components
+const ExpensiveComponent = memo(({ data }: Props) => (
+  <View className="card">...</View>
+));
+
+// ✅ Memoize callbacks
+const handlePress = useCallback(() => {
+  doSomething();
+}, [dependency]);
+
+// ✅ Memoize expensive calculations
+const processedData = useMemo(() => expensiveOperation(data), [data]);
+```
+
+### List Optimization
+```typescript
+<FlashList
+  data={items}
+  renderItem={renderItem}
+  estimatedItemSize={100}
+  keyExtractor={keyExtractor}
+  removeClippedSubviews
+  maxToRenderPerBatch={10}
+  updateCellsBatchingPeriod={50}
+  windowSize={5}
+/>
+```
+
+---
+
+## ♿ Accessibility
+
+### Always Include
+```typescript
+<Pressable
+  className="btn-primary min-h-[44px] min-w-[44px]"
+  accessibilityRole="button"
+  accessibilityLabel="Add to favorites"
+  accessibilityHint="Double tap to add this item to your favorites"
+>
+  <Icon name="heart" size={24} color="white" />
+</Pressable>
+```
+
+### Minimum Touch Target: 44x44 points (`min-h-[44px] min-w-[44px]`)
+
+---
+
+## 🚫 Common Mistakes to Avoid
+
+### ❌ DON'T
+```typescript
+// Don't use any
+const data: any = fetchData();
+
+// Don't use StyleSheet.create()
+const styles = StyleSheet.create({ container: { flex: 1 } });
+
+// Don't use inline styles
+<View style={{ flex: 1, padding: 16 }} />
+
+// Don't use inline functions in render
+<Pressable onPress={() => doSomething()} />
+
+// Don't use FlatList for long lists
+<FlatList data={items} />
+
+// Don't use var
+var count = 0;
+
+// Don't use console.log in production
+console.log('Debug info');
+```
+
+### ✅ DO
+```typescript
+// Use proper types
+const data: UserData = fetchData();
+
+// Use Uniwind className
+<View className="flex-1 p-4 bg-background" />
+
+// Use useCallback
+const handlePress = useCallback(() => doSomething(), []);
+
+// Use FlashList
+<FlashList data={items} estimatedItemSize={100} />
+
+// Use const/let
+const count = 0;
+
+// Use Sentry for logging
+Sentry.captureException(error);
+```
+
+---
+
+## Custom Icons Usage
+
+- All custom icons are in assets/icons/ as SVG files
+- ALWAYS use Icon component: `<Icon name="home" size={24} color="#000" />`
+- NEVER import SVG directly in components
+- Icon names are camelCase: home, arrowLeft, userCircle, etc.
+
+Example:
+```typescript
+import { Icon } from '@/components/ui/Icon';
+
+// Use CSS variable colors or Tailwind color values
+<Icon name="home" size={24} color="var(--color-primary)" />
+```
+
+---
+
+## 🔑 Key Takeaways
+
+1. **Always use TypeScript** - No exceptions
+2. **Uniwind for all styling** - No `StyleSheet.create()`, no inline styles
+3. **CSS variables for theming** - Define tokens in `global.css`, not in JS constants
+4. **`className` for static, `style` for animated** - Reanimated `useAnimatedStyle` only for dynamic values
+5. **Memoize appropriately** - But don't over-optimize
+6. **Use FlashList** - For all lists
+7. **Handle errors gracefully** - Use Sentry + error boundaries
+8. **Internationalize early** - Easier than retrofitting
+9. **Follow Expo Router conventions** - File-based routing is strict
+10. **Keep dependencies updated** - Especially Expo SDK

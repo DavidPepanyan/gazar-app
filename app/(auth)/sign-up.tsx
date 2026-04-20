@@ -64,7 +64,7 @@ export default function Register() {
     if (signUp.status === "complete") {
       await signUp.finalize({
         navigate: () => {
-          router.replace("/(tabs)/home");
+          router.replace("/user-details");
         },
       });
     }
