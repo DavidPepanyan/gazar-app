@@ -23,6 +23,8 @@ export default function SignIn() {
   const [password, setPassword] = React.useState("");
   const [code, setCode] = React.useState("");
   const [formError, setFormError] = React.useState("");
+  const [resendMessage, setResendMessage] = React.useState("");
+  const [isResendPressed, setIsResendPressed] = React.useState(false);
 
   const isMfaStep =
     signIn.status === "needs_client_trust" ||
@@ -30,6 +32,7 @@ export default function SignIn() {
 
   const handleSignIn = async () => {
     setFormError("");
+    setResendMessage("");
 
     const { error } = await signIn.password({
       emailAddress,
@@ -57,6 +60,7 @@ export default function SignIn() {
 
   const handleVerify = async () => {
     setFormError("");
+    setResendMessage("");
 
     const { error } = await signIn.mfa.verifyEmailCode({
       code,
@@ -74,6 +78,19 @@ export default function SignIn() {
         },
       });
     }
+  };
+
+  const handleResendCode = async () => {
+    setFormError("");
+    setResendMessage("");
+
+    const { error } = await signIn.mfa.sendEmailCode();
+    if (error) {
+      setFormError("Could not resend code. Please try again.");
+      return;
+    }
+
+    setResendMessage("Code was resent.");
   };
 
   if (signIn.status === "complete" || isSignedIn) return null;
@@ -168,11 +185,23 @@ export default function SignIn() {
                     </Text>
                   </Pressable>
 
-                  <Pressable onPress={() => signIn.mfa.sendEmailCode()}>
+                  <Pressable
+                    onPress={handleResendCode}
+                    onPressIn={() => setIsResendPressed(true)}
+                    onPressOut={() => setIsResendPressed(false)}
+                    className={`items-center py-1 ${
+                      isResendPressed ? "opacity-60" : "opacity-100"
+                    }`}
+                  >
                     <Text className="text-center text-gray-500">
                       Resend code
                     </Text>
                   </Pressable>
+                  {!!resendMessage && (
+                    <Text className="text-center text-green-600 mt-2">
+                      {resendMessage}
+                    </Text>
+                  )}
 
                   <Pressable onPress={() => signIn.reset()}>
                     <Text className="text-center text-gray-400 mt-4">

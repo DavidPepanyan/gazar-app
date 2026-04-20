@@ -23,6 +23,8 @@ export default function Register() {
   const [password, setPassword] = React.useState("");
   const [code, setCode] = React.useState("");
   const [formError, setFormError] = React.useState("");
+  const [resendMessage, setResendMessage] = React.useState("");
+  const [isResendPressed, setIsResendPressed] = React.useState(false);
 
   const isVerifyStep =
     signUp.status === "missing_requirements" &&
@@ -31,6 +33,7 @@ export default function Register() {
 
   const handleSignUp = async () => {
     setFormError("");
+    setResendMessage("");
 
     const { error } = await signUp.password({
       emailAddress,
@@ -51,6 +54,7 @@ export default function Register() {
 
   const handleVerify = async () => {
     setFormError("");
+    setResendMessage("");
 
     const { error } = await signUp.verifications.verifyEmailCode({
       code,
@@ -68,6 +72,19 @@ export default function Register() {
         },
       });
     }
+  };
+
+  const handleResendCode = async () => {
+    setFormError("");
+    setResendMessage("");
+
+    const { error } = await signUp.verifications.sendEmailCode();
+    if (error) {
+      setFormError("Could not resend code. Please try again.");
+      return;
+    }
+
+    setResendMessage("Code was resent.");
   };
 
   if (signUp.status === "complete" || isSignedIn) return null;
@@ -160,12 +177,22 @@ export default function Register() {
                   </Pressable>
 
                   <Pressable
-                    onPress={() => signUp.verifications.sendEmailCode()}
+                    onPress={handleResendCode}
+                    onPressIn={() => setIsResendPressed(true)}
+                    onPressOut={() => setIsResendPressed(false)}
+                    className={`items-center py-1 ${
+                      isResendPressed ? "opacity-60" : "opacity-100"
+                    }`}
                   >
                     <Text className="text-center text-gray-500">
                       Resend code
                     </Text>
                   </Pressable>
+                  {!!resendMessage && (
+                    <Text className="text-center text-green-600 mt-2">
+                      {resendMessage}
+                    </Text>
+                  )}
                 </View>
               )}
 
