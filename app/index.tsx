@@ -1,10 +1,20 @@
 import { Image, ImageBackground } from "expo-image";
-import { useRouter } from "expo-router";
+import { useAuth } from "@clerk/expo";
+import { Redirect, useRouter } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
+  const { isLoaded, isSignedIn } = useAuth();
   const router = useRouter();
+
+  if (!isLoaded) {
+    return null;
+  }
+
+  if (isSignedIn) {
+    return <Redirect href="/(tabs)/home" />;
+  }
 
   return (
     <ImageBackground

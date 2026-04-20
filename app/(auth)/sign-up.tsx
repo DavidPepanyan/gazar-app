@@ -135,7 +135,7 @@ export default function Register() {
                   <TextInput
                     placeholder="Email"
                     placeholderTextColor="#9CA3AF"
-                    className="rounded-2xl px-4 py-4 mb-4 text-base bg-gray-200"
+                    className="rounded-2xl px-4 py-4 mb-4 text-base bg-gray-200 leading-0 "
                     value={emailAddress}
                     onChangeText={setEmailAddress}
                   />
@@ -144,7 +144,7 @@ export default function Register() {
                     placeholder="Password"
                     placeholderTextColor="#9CA3AF"
                     secureTextEntry
-                    className="rounded-2xl px-4 py-4 mb-6 text-base bg-gray-200"
+                    className="rounded-2xl px-4 py-4 mb-6 text-base bg-gray-200 leading-0 "
                     value={password}
                     onChangeText={setPassword}
                   />
@@ -167,7 +167,7 @@ export default function Register() {
                     placeholder="Verification code"
                     placeholderTextColor="#9CA3AF"
                     keyboardType="numeric"
-                    className="rounded-2xl px-4 py-4 mb-6 text-base bg-gray-200"
+                    className="rounded-2xl px-4 py-4 mb-6 text-base bg-gray-200 leading-0 "
                     value={code}
                     onChangeText={setCode}
                   />

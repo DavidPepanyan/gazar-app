@@ -155,16 +155,24 @@ export default function SignIn() {
                   <TextInput
                     placeholder="Email"
                     placeholderTextColor="#9CA3AF"
-                    className="rounded-2xl px-4 py-4 mb-4 text-base bg-gray-200"
+                    className="rounded-2xl px-4 py-4 mb-4 text-base bg-gray-200 leading-0 "
                     value={emailAddress}
                     onChangeText={setEmailAddress}
                   />
+                  <Pressable
+                    onPress={() => router.push("/(auth)/forgot-password")}
+                    className="self-end mb-3"
+                  >
+                    <Text className="text-[#7ac943] font-medium">
+                      Forgot password?
+                    </Text>
+                  </Pressable>
 
                   <TextInput
                     placeholder="Password"
                     placeholderTextColor="#9CA3AF"
                     secureTextEntry
-                    className="rounded-2xl px-4 py-4 mb-6 text-base bg-gray-200"
+                    className="rounded-2xl px-4 py-4 mb-6 text-base bg-gray-200 leading-0 "
                     value={password}
                     onChangeText={setPassword}
                   />
@@ -187,7 +195,7 @@ export default function SignIn() {
                     placeholder="Verification code"
                     placeholderTextColor="#9CA3AF"
                     keyboardType="numeric"
-                    className="rounded-2xl px-4 py-4 mb-6 text-base bg-gray-200"
+                    className="rounded-2xl px-4 py-4 mb-6 text-base bg-gray-200 leading-0 "
                     value={code}
                     onChangeText={setCode}
                   />
