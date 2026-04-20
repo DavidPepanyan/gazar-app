@@ -16,7 +16,7 @@ import {
 
 export default function Register() {
   const { signUp, fetchStatus } = useSignUp();
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, isLoaded } = useAuth();
   const router = useRouter();
 
   const [emailAddress, setEmailAddress] = React.useState("");
@@ -87,7 +87,11 @@ export default function Register() {
     setResendMessage("Code was resent.");
   };
 
-  if (signUp.status === "complete" || isSignedIn) {
+  if (!isLoaded) {
+    return null;
+  }
+
+  if (isSignedIn) {
     return <Redirect href="/(tabs)/home" />;
   }
 

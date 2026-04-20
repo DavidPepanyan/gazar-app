@@ -16,7 +16,7 @@ import {
 
 export default function SignIn() {
   const { signIn, fetchStatus } = useSignIn();
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, isLoaded } = useAuth();
   const router = useRouter();
 
   const [emailAddress, setEmailAddress] = React.useState("");
@@ -52,8 +52,19 @@ export default function SignIn() {
       return;
     }
 
-    // FIXED: signIn.status (not "status")
-    if (signIn.status === "needs_client_trust") { 
+    if (signIn.status === "complete") {
+      await signIn.finalize({
+        navigate: () => {
+          router.replace("/(tabs)/home");
+        },
+      });
+      return;
+    }
+
+    if (
+      signIn.status === "needs_client_trust" ||
+      signIn.status === "needs_second_factor"
+    ) {
       await signIn.mfa.sendEmailCode();
     }
   };
@@ -93,7 +104,11 @@ export default function SignIn() {
     setResendMessage("Code was resent.");
   };
 
-  if (signIn.status === "complete" || isSignedIn) {
+  if (!isLoaded) {
+    return null;
+  }
+
+  if (isSignedIn) {
     return <Redirect href="/(tabs)/home" />;
   }
 
