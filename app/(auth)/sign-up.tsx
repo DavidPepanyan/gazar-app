@@ -1,6 +1,6 @@
 import { useAuth, useSignUp } from "@clerk/expo";
 import { Image } from "expo-image";
-import { Stack, useRouter } from "expo-router";
+import { Redirect, Stack, useRouter } from "expo-router";
 import React from "react";
 import {
     Keyboard,
@@ -87,7 +87,9 @@ export default function Register() {
     setResendMessage("Code was resent.");
   };
 
-  if (signUp.status === "complete" || isSignedIn) return null;
+  if (signUp.status === "complete" || isSignedIn) {
+    return <Redirect href="/(tabs)/home" />;
+  }
 
   return (
     <>

@@ -8,7 +8,7 @@ export default function Home() {
 
   const handleLogout = async () => {
     await signOut();
-    router.replace("/(auth)/sign-in");
+    router.replace("/");
   };
 
   return (
