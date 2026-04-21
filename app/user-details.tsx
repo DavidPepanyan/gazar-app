@@ -1,23 +1,23 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@clerk/expo";
-import { Stack, useRouter, Redirect } from "expo-router";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Redirect, Stack, useRouter } from "expo-router";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableWithoutFeedback,
-  View,
+    Keyboard,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableWithoutFeedback,
+    View,
 } from "react-native";
 import { z } from "zod";
 import {
-  fetchCurrentUserProfile,
-  updateCurrentUserProfile,
+    fetchCurrentUserProfile,
+    updateCurrentUserProfile,
 } from "../src/services/user.service";
 
 const userDetailsSchema = z.object({
@@ -221,7 +221,7 @@ export default function UserDetailsScreen() {
               <Pressable
                 onPress={handleSubmit(handleSaveUserDetails)}
                 disabled={!isValid || isSubmitting}
-                className="bg-[#7ac943] py-4 rounded-2xl items-center mt-8 opacity-100 disabled:opacity-50"
+                className="bg-primary py-4 rounded-2xl items-center mt-8 opacity-100 disabled:opacity-50"
                 accessibilityRole="button"
                 accessibilityLabel="Continue to app"
               >

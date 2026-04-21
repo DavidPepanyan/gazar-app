@@ -16,17 +16,19 @@ export default function ResetPassword() {
   const handleResetPassword = async () => {
     setFormError("");
 
-    const { error: verifyError } = await signIn.resetPasswordEmailCode.verifyCode({
-      code: code.trim(),
-    });
+    const { error: verifyError } =
+      await signIn.resetPasswordEmailCode.verifyCode({
+        code: code.trim(),
+      });
     if (verifyError) {
       setFormError(verifyError.message || "Invalid verification code.");
       return;
     }
 
-    const { error: submitError } = await signIn.resetPasswordEmailCode.submitPassword({
-      password: newPassword,
-    });
+    const { error: submitError } =
+      await signIn.resetPasswordEmailCode.submitPassword({
+        password: newPassword,
+      });
     if (submitError) {
       setFormError(submitError.message || "Could not reset password.");
       return;
@@ -53,8 +55,12 @@ export default function ResetPassword() {
     <>
       <Stack.Screen options={{ headerShown: false }} />
       <View className="flex-1 bg-white px-8 justify-center">
-        <Text className="text-2xl font-bold text-center mb-2">Reset Password</Text>
-        {!!email && <Text className="text-gray-500 text-center mb-6">{email}</Text>}
+        <Text className="text-2xl font-bold text-center mb-2">
+          Reset Password
+        </Text>
+        {!!email && (
+          <Text className="text-gray-500 text-center mb-6">{email}</Text>
+        )}
 
         {!!formError && (
           <Text className="text-red-500 text-center mb-4">{formError}</Text>
@@ -81,9 +87,11 @@ export default function ResetPassword() {
         <Pressable
           onPress={handleResetPassword}
           disabled={!code || !newPassword || fetchStatus === "fetching"}
-          className="bg-[#7ac943] py-4 rounded-2xl items-center opacity-100 disabled:opacity-50"
+          className="bg-primary py-4 rounded-2xl items-center opacity-100 disabled:opacity-50"
         >
-          <Text className="text-white font-semibold text-base">Update password</Text>
+          <Text className="text-white font-semibold text-base">
+            Update password
+          </Text>
         </Pressable>
       </View>
     </>

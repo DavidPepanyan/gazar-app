@@ -1,27 +1,27 @@
 ﻿import { useAuth, useUser } from "@clerk/expo";
 import { Image } from "expo-image";
 import {
-  ChevronRight,
-  CircleHelp,
-  History,
-  Languages,
-  LogOut,
-  Shield,
-  UserRoundPen,
+    ChevronRight,
+    CircleHelp,
+    History,
+    Languages,
+    LogOut,
+    Shield,
+    UserRoundPen,
 } from "lucide-react-native";
 import React from "react";
 import {
-  ActivityIndicator,
-  Alert,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
+    ActivityIndicator,
+    Alert,
+    Pressable,
+    ScrollView,
+    Text,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
-  fetchCurrentUserProfile,
-  UserProfile,
+    fetchCurrentUserProfile,
+    UserProfile,
 } from "../../../src/services/user.service";
 
 const menuItems = [
@@ -141,7 +141,6 @@ export default function MoreScreen() {
   return (
     <SafeAreaView className="flex-1 bg-[#f3f4f6]">
       <ScrollView
-        
         contentContainerClassName="px-5 pt-6 pb-8"
         showsVerticalScrollIndicator={false}
       >
@@ -157,7 +156,6 @@ export default function MoreScreen() {
                 contentFit="cover"
                 className="h-14 w-14 rounded-full"
                 style={{ width: 42, height: 42, borderRadius: 34 }}
-
               />
             ) : (
               <View className="h-14 w-14 items-center justify-center rounded-full bg-white">
@@ -191,7 +189,7 @@ export default function MoreScreen() {
               </Text>
               <Pressable
                 onPress={handleRetry}
-                className="rounded-full bg-[#7ac943] px-3 py-1.5"
+                className="rounded-full bg-primary px-3 py-1.5"
               >
                 <Text className="text-xs font-bold text-white">Retry</Text>
               </Pressable>

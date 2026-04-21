@@ -1,5 +1,5 @@
-import { Image, ImageBackground } from "expo-image";
 import { useAuth } from "@clerk/expo";
+import { Image, ImageBackground } from "expo-image";
 import { Redirect, useRouter } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -36,7 +36,7 @@ export default function App() {
         <View className="justify-end w-full h-full relative z-10">
           <Pressable
             onPress={() => router.push("/(auth)/sign-in")}
-            className="bg-[#7ac943] px-5 py-3 rounded-3xl w-[90%] self-center items-center justify-center"
+            className="bg-primary px-5 py-3 rounded-3xl w-[90%] self-center items-center justify-center"
           >
             <Text className="text-white font-bold text-center text-xl">
               Welcome

@@ -163,7 +163,7 @@ export default function SignIn() {
                     onPress={() => router.push("/(auth)/forgot-password")}
                     className="self-end mb-3"
                   >
-                    <Text className="text-[#7ac943] font-medium">
+                    <Text className="text-primary font-medium">
                       Forgot password?
                     </Text>
                   </Pressable>
@@ -182,7 +182,7 @@ export default function SignIn() {
                     disabled={
                       !emailAddress || !password || fetchStatus === "fetching"
                     }
-                    className="bg-[#7ac943] py-4 rounded-2xl items-center mb-4 opacity-100 disabled:opacity-50"
+                    className="bg-primary py-4 rounded-2xl items-center mb-4 opacity-100 disabled:opacity-50"
                   >
                     <Text className="text-white font-semibold text-base">
                       Continue
@@ -203,7 +203,7 @@ export default function SignIn() {
                   <Pressable
                     onPress={handleVerify}
                     disabled={fetchStatus === "fetching"}
-                    className="bg-[#7ac943] py-4 rounded-2xl items-center mb-4"
+                    className="bg-primary py-4 rounded-2xl items-center mb-4"
                   >
                     <Text className="text-white font-semibold text-base">
                       Verify
@@ -241,7 +241,7 @@ export default function SignIn() {
                 <Text className="text-gray-500">
                   Don’t have an account?{" "}
                   <Text
-                    className="text-[#7ac943] font-semibold"
+                    className="text-primary font-semibold"
                     onPress={() => router.push("/(auth)/sign-up")}
                   >
                     Sign up
