@@ -1,4 +1,5 @@
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Dimensions, Pressable, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
@@ -15,7 +16,11 @@ const BANNER_HEIGHT = 180;
 
 export const BannerSlider = React.memo<BannerSliderProps>(
   ({ banners, onBannerPress }) => {
+    const router = useRouter();
     const [currentIndex, setCurrentIndex] = React.useState(0);
+    const handleShopNowPress = React.useCallback(() => {
+      router.push("/(tabs)/shop");
+    }, [router]);
 
     if (!banners.length) {
       return null;
@@ -65,7 +70,7 @@ export const BannerSlider = React.memo<BannerSliderProps>(
                   ) : null}
 
                   <Text
-                    className="mt-2 w-[90%] text-lg font-bold leading-normal"
+                    className="mt-2 w-[90%] text-lg font-bold leading-tight"
                     style={{ color: "#FFFFFF" }}
                     numberOfLines={2}
                   >
@@ -73,8 +78,15 @@ export const BannerSlider = React.memo<BannerSliderProps>(
                   </Text>
                 </View>
 
-                <Pressable className="self-start rounded-full bg-white px-4 py-1.5">
-                  <Text className="text-base font-bold text-black">Shop Now</Text>
+                <Pressable
+                  onPress={() => {
+                    handleShopNowPress();
+                  }}
+                  className="self-start rounded-full bg-primary px-4 py-1.5"
+                >
+                  <Text className="text-base font-bold text-white">
+                    Shop Now
+                  </Text>
                 </Pressable>
               </View>
             </Pressable>
@@ -87,9 +99,7 @@ export const BannerSlider = React.memo<BannerSliderProps>(
               <View
                 key={index}
                 className={`h-2 rounded-full transition-all ${
-                  index === currentIndex
-                    ? "w-6 bg-primary"
-                    : "w-2 bg-gray-300"
+                  index === currentIndex ? "w-6 bg-primary" : "w-2 bg-gray-300"
                 }`}
               />
             ))}
