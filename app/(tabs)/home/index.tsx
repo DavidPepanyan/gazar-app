@@ -72,7 +72,7 @@ export default function Home() {
           contentContainerClassName="pb-8"
           showsVerticalScrollIndicator={false}
         >
-          <View className="mt-4 px-6 flex-row items-center justify-between">
+          <View className="mt-4 px-6 flex-row items-center justify-between border-b border-primary/15 pb-2">
             <View className="flex-row items-center gap-2">
               {apiUser?.image ? (
                 <Image
