@@ -5,6 +5,7 @@ import React from "react";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BannerSlider } from "../../../src/components/home/BannerSlider";
+import { DeliveryInfo } from "../../../src/components/home/DeliveryInfo";
 import {
   fetchHomeMainSlider,
   HomeBanner,
@@ -20,7 +21,7 @@ export default function Home() {
   const [banners, setBanners] = React.useState<HomeBanner[]>([]);
   const [isLoadingBanners, setIsLoadingBanners] = React.useState(true);
   const hasLoadedRef = React.useRef(false);
-  console.log(banners);
+
   const loadUserDetails = React.useCallback(async () => {
     const token = await getToken();
     if (!token) {
@@ -92,7 +93,7 @@ export default function Home() {
             </View>
           </View>
 
-          <View className="mt-6">
+          <View className="mt-4">
             {isLoadingBanners ? (
               <View className="mx-6 h-[160px] items-center justify-center rounded-3xl bg-orange-50">
                 <ActivityIndicator size="small" color="#ff7a00" />
@@ -104,6 +105,8 @@ export default function Home() {
               <BannerSlider banners={banners} />
             )}
           </View>
+
+          <DeliveryInfo />
         </ScrollView>
       </SafeAreaView>
     </>

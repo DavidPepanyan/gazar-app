@@ -54,7 +54,7 @@ export const BannerSlider = React.memo<BannerSliderProps>(
               />
               <View
                 pointerEvents="none"
-                className="absolute inset-0 bg-black/20"
+                className="absolute inset-0 bg-black/10"
               />
 
               <View className="absolute inset-0 z-10 justify-between p-5">
