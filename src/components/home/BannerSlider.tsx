@@ -11,7 +11,7 @@ interface BannerSliderProps {
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const BANNER_WIDTH = WINDOW_WIDTH;
-const BANNER_HEIGHT = 160;
+const BANNER_HEIGHT = 180;
 
 export const BannerSlider = React.memo<BannerSliderProps>(
   ({ banners, onBannerPress }) => {
@@ -36,7 +36,7 @@ export const BannerSlider = React.memo<BannerSliderProps>(
           renderItem={({ item }) => (
             <Pressable
               onPress={() => onBannerPress?.(item)}
-              className="relative mx-6 h-[160px] overflow-hidden rounded-3xl bg-black"
+              className="relative mx-6 h-[180px] overflow-hidden rounded-3xl bg-black"
             >
               <Image
                 source={{ uri: item.image }}
