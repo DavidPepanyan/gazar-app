@@ -22,10 +22,10 @@ export const DeliveryInfo = React.memo(() => {
         {DELIVERY_WINDOWS.map((window) => (
           <View
             key={window.time}
-            className="w-[48%] rounded-xl  bg-[#f1f1f1] p-3"
+            className="w-[48%] rounded-xl  bg-[#F2F5F0] p-3"
           >
             <Text className="text-base font-bold text-center text-primary">{window.time}</Text>
-            <Text className="mt-1 text-sm font-medium text-center text-gray-700" numberOfLines={2}>
+            <Text className="mt-1 text-sm font-medium text-center text-gray-600" numberOfLines={2}>
               {window.title}
             </Text>
           </View>
