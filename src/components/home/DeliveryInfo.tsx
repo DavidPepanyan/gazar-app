@@ -15,8 +15,8 @@ const DELIVERY_WINDOWS: DeliveryWindow[] = [
 
 export const DeliveryInfo = React.memo(() => {
   return (
-    <View className="mx-2 mt-4 rounded-3xl bg-white p-4">
-      <Text className="text-lg font-bold text-black">Free Delivery</Text>
+    <View className="mx-2  mt-4 rounded-3xl bg-white px-4">
+      <Text className="text-lg font-bold text-gray-900">Free Delivery</Text>
 
       <View className="mt-3 flex-row flex-wrap justify-between gap-y-2">
         {DELIVERY_WINDOWS.map((window) => (

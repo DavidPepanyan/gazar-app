@@ -5,6 +5,7 @@ import React from "react";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BannerSlider } from "../../../src/components/home/BannerSlider";
+import { Categories } from "../../../src/components/home/Categories";
 import { DeliveryInfo } from "../../../src/components/home/DeliveryInfo";
 import {
   fetchHomeMainSlider,
@@ -65,7 +66,8 @@ export default function Home() {
     <>
       <Stack.Screen options={{ headerShown: false }} />
 
-      <SafeAreaView className="flex-1 bg-white pt-16">
+      <SafeAreaView className="flex-1 bg-white pt-16"
+      edges={["top"]}>
         <ScrollView
           contentContainerClassName="pb-8"
           showsVerticalScrollIndicator={false}
@@ -106,6 +108,7 @@ export default function Home() {
             )}
           </View>
 
+          <Categories />
           <DeliveryInfo />
         </ScrollView>
       </SafeAreaView>
