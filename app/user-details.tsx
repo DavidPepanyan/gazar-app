@@ -15,6 +15,10 @@ import {
   View,
 } from "react-native";
 import { z } from "zod";
+import {
+  fetchCurrentUserProfile,
+  updateCurrentUserProfile,
+} from "../src/services/user.service";
 
 const userDetailsSchema = z.object({
   firstName: z
@@ -35,7 +39,6 @@ const userDetailsSchema = z.object({
 });
 
 type UserDetailsFormValues = z.infer<typeof userDetailsSchema>;
-const USER_DETAILS_ENDPOINT = "https://gazar.am/api/user/me";
 
 export default function UserDetailsScreen() {
   const router = useRouter();
@@ -45,6 +48,7 @@ export default function UserDetailsScreen() {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting, isValid },
   } = useForm<UserDetailsFormValues>({
     resolver: zodResolver(userDetailsSchema),
@@ -56,6 +60,34 @@ export default function UserDetailsScreen() {
     },
   });
 
+  React.useEffect(() => {
+    const loadInitialValues = async () => {
+      const token = await getToken();
+      if (!token) {
+        return;
+      }
+
+      try {
+        const data = await fetchCurrentUserProfile(token);
+        if (!data) {
+          return;
+        }
+
+        reset({
+          firstName: data.name?.trim() ?? "",
+          lastName: data.lastName?.trim() ?? "",
+          phoneNumber: data.phone?.trim() ?? "",
+        });
+      } catch {
+        // Keep empty defaults if fetch fails.
+      }
+    };
+
+    if (isLoaded && isSignedIn) {
+      void loadInitialValues();
+    }
+  }, [getToken, isLoaded, isSignedIn, reset]);
+
   const handleSaveUserDetails = async (values: UserDetailsFormValues) => {
     setSubmitError("");
 
@@ -66,39 +98,19 @@ export default function UserDetailsScreen() {
     }
 
     try {
-      const payload = {
+      await updateCurrentUserProfile(token, {
         name: values.firstName,
         lastName: values.lastName,
         phone: values.phoneNumber,
-      };
-      const response = await fetch(USER_DETAILS_ENDPOINT, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
       });
 
-      if (!response.ok) {
-        let apiMessage = "Could not save your details. Please try again.";
-
-        try {
-          const errorData = (await response.json()) as { message?: string };
-          if (errorData.message) {
-            apiMessage = errorData.message;
-          }
-        } catch {
-          // Keep fallback message when response body is not JSON.
-        }
-
-        setSubmitError(apiMessage);
-        return;
-      }
-
       router.replace("/(tabs)/home");
-    } catch {
-      setSubmitError("Could not save your details. Please try again.");
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "Could not save your details. Please try again.",
+      );
     }
   };
 
