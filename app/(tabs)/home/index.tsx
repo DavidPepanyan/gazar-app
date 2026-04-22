@@ -7,6 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { BannerSlider } from "../../../src/components/home/BannerSlider";
 import { Categories } from "../../../src/components/home/Categories";
 import { DeliveryInfo } from "../../../src/components/home/DeliveryInfo";
+import { FavoriteProudcts } from "../../../src/components/home/FavoriteProudcts";
 import {
   fetchHomeMainSlider,
   HomeBanner,
@@ -110,6 +111,7 @@ export default function Home() {
 
           <Categories />
           <DeliveryInfo />
+          <FavoriteProudcts />
         </ScrollView>
       </SafeAreaView>
     </>

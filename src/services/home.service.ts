@@ -24,6 +24,30 @@ interface HomeCategoryResponse {
   gzCategoryDetails?: CategoryDetailResponse[];
 }
 
+interface FavoriteProductDetailResponse {
+  name?: string;
+}
+
+interface FavoriteProductCategoryResponse {
+  name?: string;
+}
+
+interface HomeFavoriteProductResponse {
+  id: number;
+  slug?: string;
+  price?: number;
+  unit?: string;
+  gzProductDetails?: FavoriteProductDetailResponse[];
+  GzCategory?: FavoriteProductCategoryResponse;
+  discount?: number;
+  discountType?: string;
+  discountActive?: boolean;
+  imageLink?: string;
+  weight?: number;
+  minLimit?: number;
+  maxLimit?: number;
+}
+
 export interface HomeBanner {
   id: number;
   title: string;
@@ -37,6 +61,30 @@ export interface HomeCategory {
   title: string;
   image: string;
 }
+
+export interface HomeFavoriteProduct {
+  id: number;
+  slug: string;
+  title: string;
+  category: string;
+  categorySlug: string;
+  price: number;
+  unit: "piece" | "kg";
+  discount: number;
+  discountType: string;
+  discountActive: boolean;
+  image: string;
+  weight: number;
+  minLimit: number;
+  maxLimit: number;
+}
+
+const toCategorySlug = (value: string): string =>
+  value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
 export const fetchHomeMainSlider = async (
   lan: string = "EN",
@@ -82,6 +130,41 @@ export const fetchHomeCategories = async (
       slug: category.name || "",
       title: detail?.name || category.name || "",
       image: detail?.imageLink || "",
+    };
+  });
+};
+
+export const fetchHomeFavoriteProducts = async (
+  lan: string = "EN",
+): Promise<HomeFavoriteProduct[]> => {
+  const response = await fetch(API_ENDPOINTS.HOME_FAVORITE_PRODUCTS(lan), {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    return [];
+  }
+
+  const data = (await response.json()) as HomeFavoriteProductResponse[];
+
+  return data.map((product) => {
+    const categoryName = product.GzCategory?.name || "";
+
+    return {
+      id: product.id,
+      slug: product.slug || "",
+      title: product.gzProductDetails?.[0]?.name?.trim() || product.slug || "",
+      category: categoryName,
+      categorySlug: toCategorySlug(categoryName),
+      price: product.price || 0,
+      unit: product.unit === "kg" ? "kg" : "piece",
+      discount: product.discount || 0,
+      discountType: product.discountType || "PRICE",
+      discountActive: Boolean(product.discountActive),
+      image: product.imageLink || "",
+      weight: product.weight || 0,
+      minLimit: product.minLimit || 1,
+      maxLimit: product.maxLimit || 1,
     };
   });
 };

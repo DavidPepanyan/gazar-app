@@ -6,4 +6,6 @@ export const API_ENDPOINTS = {
     `${API_BASE_URL}/home/main-slider?lan=${encodeURIComponent(lan)}`,
   HOME_CATEGORIES: (lan: string) =>
     `${API_BASE_URL}/home/categories?lan=${encodeURIComponent(lan)}`,
+  HOME_FAVORITE_PRODUCTS: (lan: string) =>
+    `${API_BASE_URL}/home/favorite-products?lan=${encodeURIComponent(lan)}`,
 } as const;
