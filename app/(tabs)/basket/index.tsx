@@ -23,6 +23,26 @@ export default function BasketScreen() {
     [],
   );
 
+  const getDiscountedPrice = React.useCallback(
+    (item: {
+      price: number;
+      discount: number;
+      discountType: string;
+      discountActive: boolean;
+    }): number => {
+      if (!item.discountActive || item.discount <= 0) {
+        return item.price;
+      }
+
+      if (item.discountType === "PERCENT") {
+        return Math.max(0, Math.round(item.price * (1 - item.discount / 100)));
+      }
+
+      return Math.max(0, item.price - item.discount);
+    },
+    [],
+  );
+
   if (!basketItems.length) {
     return (
       <View className="flex-1 items-center justify-center bg-white px-6">
@@ -59,60 +79,72 @@ export default function BasketScreen() {
           </Text>
         </View>
 
-        {basketItems.map((item) => (
-          <View
-            key={item.id}
-            className="mb-3 rounded-2xl border border-primary/15 bg-white p-3"
-          >
-            <View className="flex-row">
-              <View className="h-[88px] w-[88px] items-center justify-center overflow-hidden rounded-2xl ">
-                {item.image ? (
-                  <Image
-                    source={{ uri: item.image }}
-                    contentFit="contain"
-                    className="h-full w-full"
-                    style={{ width: 88, height: 88 }}
-                  />
-                ) : (
-                  <Text className="text-xs text-gray-500">No image</Text>
-                )}
-              </View>
+        {basketItems.map((item) => {
+          const discountedPrice = getDiscountedPrice(item);
+          const hasDiscount = item.discountActive && discountedPrice < item.price;
 
-              <View className="ml-3 flex-1">
-                <Text className="text-base font-bold text-gray-900" numberOfLines={2}>
-                  {item.name}
-                </Text>
-                <Text className="mt-1 text-xs text-gray-500" numberOfLines={1}>
-                  {item.weight} {item.unit}
-                </Text>
-                <Text className="mt-2 text-base font-bold text-primary">
-                  {formatPrice(item.price)}
-                </Text>
-              </View>
-            </View>
-
-            <View className="mt-3">
-              <QuantitySelector
-                value={item.quantity}
-                min={item.minLimit ?? 1}
-                max={item.maxLimit ?? 999}
-                onChange={(nextValue) =>
-                  updateItemQuantity({ id: item.id, quantity: nextValue })
-                }
-                unit={item.unit}
-              />
-            </View>
-
-            <Pressable
-              onPress={() => removeItem(item.id)}
-              className="mt-3 min-h-[40px] items-center justify-center rounded-full bg-gray-100"
-              accessibilityRole="button"
-              accessibilityLabel={`Remove ${item.name} from basket`}
+          return (
+            <View
+              key={item.id}
+              className="mb-3 rounded-2xl border border-primary/15 bg-white p-3"
             >
-              <Text className="text-sm font-semibold text-gray-700">Remove</Text>
-            </Pressable>
-          </View>
-        ))}
+              <View className="flex-row">
+                <View className="h-[88px] w-[88px] items-center justify-center overflow-hidden rounded-2xl ">
+                  {item.image ? (
+                    <Image
+                      source={{ uri: item.image }}
+                      contentFit="contain"
+                      className="h-full w-full"
+                      style={{ width: 88, height: 88 }}
+                    />
+                  ) : (
+                    <Text className="text-xs text-gray-500">No image</Text>
+                  )}
+                </View>
+
+                <View className="ml-3 flex-1">
+                  <Text className="text-base font-bold text-gray-900" numberOfLines={2}>
+                    {item.name}
+                  </Text>
+                  <Text className="mt-1 text-xs text-gray-500" numberOfLines={1}>
+                    {item.weight} {item.unit}
+                  </Text>
+                  <View className="mt-2 flex-row items-center">
+                    <Text className="text-base font-bold text-primary">
+                      {formatPrice(discountedPrice)}
+                    </Text>
+                    {hasDiscount ? (
+                      <Text className="ml-2 text-xs text-gray-400 line-through">
+                        {formatPrice(item.price)}
+                      </Text>
+                    ) : null}
+                  </View>
+                </View>
+              </View>
+
+              <View className="mt-3">
+                <QuantitySelector
+                  value={item.quantity}
+                  min={item.minLimit ?? 1}
+                  max={item.maxLimit ?? 999}
+                  onChange={(nextValue) =>
+                    updateItemQuantity({ id: item.id, quantity: nextValue })
+                  }
+                  unit={item.unit}
+                />
+              </View>
+
+              <Pressable
+                onPress={() => removeItem(item.id)}
+                className="mt-3 min-h-[40px] items-center justify-center rounded-full bg-gray-100"
+                accessibilityRole="button"
+                accessibilityLabel={`Remove ${item.name} from basket`}
+              >
+                <Text className="text-sm font-semibold text-gray-700">Remove</Text>
+              </Pressable>
+            </View>
+          );
+        })}
 
         <Link href="../checkout" asChild>
           <Pressable
