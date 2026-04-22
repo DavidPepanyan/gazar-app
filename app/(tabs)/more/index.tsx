@@ -139,7 +139,7 @@ export default function MoreScreen() {
     [isLoggingOut, signOut],
   );
   return (
-    <SafeAreaView className="flex-1 bg-[#f3f4f6]">
+    <SafeAreaView className="flex-1">
       <ScrollView
         contentContainerClassName="px-5 pt-6 pb-8"
         showsVerticalScrollIndicator={false}
@@ -148,7 +148,7 @@ export default function MoreScreen() {
           Account
         </Text>
 
-        <View className="mb-6 rounded-3xl bg-[#f2f2f2] px-4 py-4">
+        <View className="mb-6 rounded-3xl border border-primary/15 px-4 py-4">
           <View className="mb-3 flex-row items-center gap-3">
             {userImage ? (
               <Image
@@ -189,7 +189,7 @@ export default function MoreScreen() {
               </Text>
               <Pressable
                 onPress={handleRetry}
-                className="rounded-full bg-primary px-3 py-1.5"
+                className="rounded-full bg-primary/15 px-3 py-1.5"
               >
                 <Text className="text-xs font-bold text-white">Retry</Text>
               </Pressable>
@@ -197,7 +197,7 @@ export default function MoreScreen() {
           ) : null}
         </View>
 
-        <View className="rounded-3xl bg-[#f2f2f2] px-3 py-2">
+        <View className="rounded-3xl border border-primary/15 px-3 py-2">
           {menuItems.map((item, index) => {
             const Icon = item.icon;
             const isLast = index === menuItems.length - 1;
@@ -205,14 +205,14 @@ export default function MoreScreen() {
             return (
               <Pressable
                 key={item.key}
-                className={`flex-row items-center justify-between py-3 ${
+                className={`flex-row items-center justify-between py-4 ${
                   !isLast ? "border-b border-gray-300" : ""
                 }`}
                 onPress={() => void handleMenuPress(item.title, item.key)}
               >
                 <View className="flex-1 flex-row items-center gap-3">
-                  <View className="h-10 w-10 items-center justify-center rounded-full bg-[#f3f4f6]">
-                    <Icon size={20} color="#111827" />
+                  <View className="h-10 w-10 items-center justify-center rounded-full bg-primary/80">
+                    <Icon size={20} color="#fff" />
                   </View>
 
                   <View className="flex-1">
