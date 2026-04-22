@@ -2,6 +2,7 @@ import { Image } from "expo-image";
 import React from "react";
 import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
 import { QuantitySelector } from "../shared/QuantitySelector";
+import { useBasketStore } from "../../store/basket.store";
 import {
   fetchHomeFavoriteProducts,
   HomeFavoriteProduct,
@@ -25,6 +26,9 @@ export const FavoriteProudcts = React.memo(() => {
   const [products, setProducts] = React.useState<HomeFavoriteProduct[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [quantities, setQuantities] = React.useState<Record<number, number>>({});
+  const [addingState, setAddingState] = React.useState<Record<number, boolean>>({});
+  const addItem = useBasketStore((state) => state.addItem);
+  const addTimeoutsRef = React.useRef<Record<number, ReturnType<typeof setTimeout>>>({});
 
   const loadFavoriteProducts = React.useCallback(async () => {
     setIsLoading(true);
@@ -47,12 +51,58 @@ export const FavoriteProudcts = React.memo(() => {
     void loadFavoriteProducts();
   }, [loadFavoriteProducts]);
 
+  React.useEffect(() => {
+    const timeoutMap = addTimeoutsRef.current;
+
+    return () => {
+      Object.values(timeoutMap).forEach((timerId) => {
+        clearTimeout(timerId);
+      });
+    };
+  }, []);
+
   const updateQuantity = React.useCallback((productId: number, nextValue: number) => {
     setQuantities((prev) => ({
       ...prev,
       [productId]: nextValue,
     }));
   }, []);
+
+  const handleAddToBasket = React.useCallback(
+    (product: HomeFavoriteProduct) => {
+      if (addingState[product.id]) {
+        return;
+      }
+
+      const selectedQuantity = quantities[product.id] ?? product.minLimit;
+      setAddingState((prev) => ({ ...prev, [product.id]: true }));
+
+      addItem({
+        id: product.id,
+        slug: product.slug,
+        name: product.title,
+        description: product.category,
+        price: product.price,
+        discount: product.discount,
+        discountType: product.discountType,
+        discountActive: product.discountActive,
+        image: product.image,
+        weight: product.weight,
+        unit: product.unit,
+        minLimit: product.minLimit,
+        maxLimit: product.maxLimit,
+        quantity: selectedQuantity,
+      });
+
+      const timerId = setTimeout(() => {
+        setAddingState((prev) => ({ ...prev, [product.id]: false }));
+        delete addTimeoutsRef.current[product.id];
+      }, 700);
+
+      addTimeoutsRef.current[product.id] = timerId;
+    },
+    [addItem, addingState, quantities],
+  );
 
   if (isLoading) {
     return (
@@ -86,6 +136,7 @@ export const FavoriteProudcts = React.memo(() => {
           const currentQuantity = quantities[product.id] ?? product.minLimit;
           const discountedPrice = getDiscountedPrice(product);
           const hasDiscount = product.discountActive && discountedPrice < product.price;
+          const isAdding = addingState[product.id] ?? false;
 
           return (
             <View
@@ -147,10 +198,15 @@ export const FavoriteProudcts = React.memo(() => {
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel={`Add ${product.title} to basket`}
-                onPress={() => {}}
+                onPress={() => handleAddToBasket(product)}
+                disabled={isAdding}
                 className="mt-3 min-h-[44px] items-center justify-center rounded-full bg-primary"
               >
-                <Text className="text-sm font-bold text-white">Add to basket</Text>
+                {isAdding ? (
+                  <ActivityIndicator size="small" color="#ffffff" />
+                ) : (
+                  <Text className="text-sm font-bold text-white">Add to basket</Text>
+                )}
               </Pressable>
             </View>
           );
