@@ -110,7 +110,7 @@ export const FavoriteProudcts = React.memo(() => {
 
                 {hasDiscount ? (
                   <View className="absolute left-2 top-2 rounded-full bg-red-500 px-2 py-1">
-                    <Text className="text-xs font-bold text-white">Discount</Text>
+                    <Text className="text-xs font-bold text-white">Sale</Text>
                   </View>
                 ) : null}
               </View>

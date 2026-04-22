@@ -1,8 +1,16 @@
 ﻿import { useAuth } from "@clerk/expo";
 import { Image } from "expo-image";
 import { Stack } from "expo-router";
+import { PhoneCall } from "lucide-react-native";
 import React from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Linking,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BannerSlider } from "../../../src/components/home/BannerSlider";
 import { Categories } from "../../../src/components/home/Categories";
@@ -18,11 +26,22 @@ import {
 } from "../../../src/services/user.service";
 
 export default function Home() {
+  const CONTACT_PHONE = "+374 55 456 454";
+  const CONTACT_PHONE_URL = "tel:+37455456454";
   const { getToken } = useAuth();
   const [apiUser, setApiUser] = React.useState<UserProfile | null>(null);
   const [banners, setBanners] = React.useState<HomeBanner[]>([]);
   const [isLoadingBanners, setIsLoadingBanners] = React.useState(true);
   const hasLoadedRef = React.useRef(false);
+
+  const handleCallPress = React.useCallback(async () => {
+    const canOpen = await Linking.canOpenURL(CONTACT_PHONE_URL);
+    if (!canOpen) {
+      return;
+    }
+
+    await Linking.openURL(CONTACT_PHONE_URL);
+  }, [CONTACT_PHONE_URL]);
 
   const loadUserDetails = React.useCallback(async () => {
     const token = await getToken();
@@ -94,6 +113,17 @@ export default function Home() {
                 Hello, {userName}
               </Text>
             </View>
+
+            <Pressable
+              onPress={() => {
+                void handleCallPress();
+              }}
+              accessibilityRole="button"
+              accessibilityLabel={`Call support ${CONTACT_PHONE}`}
+              className="h-[42px] w-[42px] items-center justify-center "
+            >
+              <PhoneCall size={25} color="#7ac943" />
+            </Pressable>
           </View>
 
           <View className="mt-4">
