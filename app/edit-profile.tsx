@@ -1,5 +1,8 @@
 import { useTranslation } from "@/src/hooks/UseTranslation";
-import { fetchCurrentUserProfile } from "@/src/services/user.service";
+import {
+  fetchCurrentUserProfile,
+  updateCurrentUserProfile,
+} from "@/src/services/user.service";
 import { useAuth } from "@clerk/expo";
 import { Redirect, Stack, useRouter } from "expo-router";
 import React from "react";
@@ -19,6 +22,8 @@ interface EditProfileFields {
   firstName: string;
   lastName: string;
   phoneNumber: string;
+  companyName: string;
+  companyTin: string;
 }
 
 export default function EditProfileScreen() {
@@ -28,15 +33,20 @@ export default function EditProfileScreen() {
   const hasFetchedProfileRef = React.useRef(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isError, setIsError] = React.useState(false);
+  const [isSaving, setIsSaving] = React.useState(false);
+  const [submitError, setSubmitError] = React.useState("");
   const [fields, setFields] = React.useState<EditProfileFields>({
     firstName: "",
     lastName: "",
     phoneNumber: "",
+    companyName: "",
+    companyTin: "",
   });
 
   const loadProfile = React.useCallback(async () => {
     setIsLoading(true);
     setIsError(false);
+    setSubmitError("");
 
     try {
       const token = await getToken();
@@ -54,6 +64,8 @@ export default function EditProfileScreen() {
         firstName: data.name?.trim() ?? "",
         lastName: data.lastName?.trim() ?? "",
         phoneNumber: data.phone?.trim() ?? "",
+        companyName: data.companyName?.trim() ?? "",
+        companyTin: data.companyTin?.trim() ?? "",
       });
     } catch {
       setIsError(true);
@@ -61,6 +73,33 @@ export default function EditProfileScreen() {
       setIsLoading(false);
     }
   }, [getToken]);
+
+  const handleSaveProfile = React.useCallback(async () => {
+    setSubmitError("");
+    setIsSaving(true);
+
+    try {
+      const token = await getToken();
+      if (!token) {
+        setSubmitError(t("userDetails.errors.authFailed"));
+        return;
+      }
+
+      await updateCurrentUserProfile(token, {
+        name: fields.firstName.trim(),
+        lastName: fields.lastName.trim(),
+        phone: fields.phoneNumber.trim(),
+        companyName: fields.companyName.trim() || null,
+        companyTin: fields.companyTin.trim() || null,
+      });
+
+      router.back();
+    } catch {
+      setSubmitError(t("userDetails.errors.saveFailed"));
+    } finally {
+      setIsSaving(false);
+    }
+  }, [fields, getToken, router, t]);
 
   React.useEffect(() => {
     if (!isLoaded || !isSignedIn || hasFetchedProfileRef.current) {
@@ -107,6 +146,11 @@ export default function EditProfileScreen() {
             <Text className="mb-6 text-sm leading-6 text-gray-600">
               {t("editProfile.subtitle")}
             </Text>
+            {!!submitError && (
+              <View className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3">
+                <Text className="text-sm leading-6 text-red-600">{submitError}</Text>
+              </View>
+            )}
 
             {isError ? (
             <View className="rounded-2xl border border-red-200 bg-red-50 px-4 py-4">
@@ -155,15 +199,38 @@ export default function EditProfileScreen() {
                   className="rounded-2xl bg-gray-100 px-4 py-4 text-base"
                   keyboardType="phone-pad"
                 />
+
+                <Text className="mt-4 mb-2 text-sm font-semibold text-gray-700">
+                  {t("editProfile.companyNameLabel")}
+                </Text>
+                <TextInput
+                  placeholder={t("editProfile.companyNamePlaceholder")}
+                  placeholderTextColor="#9CA3AF"
+                  value={fields.companyName}
+                  onChangeText={(companyName) => setFields((prev) => ({ ...prev, companyName }))}
+                  className="rounded-2xl bg-gray-100 px-4 py-4 text-base"
+                />
+
+                <Text className="mt-4 mb-2 text-sm font-semibold text-gray-700">
+                  {t("editProfile.companyTinLabel")}
+                </Text>
+                <TextInput
+                  placeholder={t("editProfile.companyTinPlaceholder")}
+                  placeholderTextColor="#9CA3AF"
+                  value={fields.companyTin}
+                  onChangeText={(companyTin) => setFields((prev) => ({ ...prev, companyTin }))}
+                  className="rounded-2xl bg-gray-100 px-4 py-4 text-base"
+                />
               </View>
             )}
 
             <Pressable
-              onPress={() => router.back()}
-              className="mt-6 items-center rounded-2xl bg-primary/15 px-4 py-3"
+              onPress={() => void handleSaveProfile()}
+              disabled={isSaving || isError}
+              className="mt-6 items-center rounded-2xl bg-primary px-4 py-3 opacity-100 disabled:opacity-50"
             >
-              <Text className="text-sm font-semibold text-gray-800">
-                {t("editProfile.doneForNow")}
+              <Text className="text-sm font-semibold text-white">
+                {isSaving ? t("userDetails.saving") : t("editProfile.doneForNow")}
               </Text>
             </Pressable>
           </ScrollView>

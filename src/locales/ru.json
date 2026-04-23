@@ -248,7 +248,7 @@
   },
   "editProfile": {
     "title": "Редактировать профиль",
-    "subtitle": "Ниже отображаются ваши текущие данные. Логику сохранения добавим следующим шагом.",
+    "subtitle": "Ниже отображаются ваши текущие данные.",
     "loading": "Загрузка профиля...",
     "error": "Не удалось загрузить данные профиля.",
     "retry": "Повторить",
@@ -258,6 +258,10 @@
     "lastNamePlaceholder": "Фамилия",
     "phoneLabel": "Номер телефона",
     "phonePlaceholder": "Номер телефона",
+    "companyNameLabel": "Название компании",
+    "companyNamePlaceholder": "Название компании",
+    "companyTinLabel": "ИНН компании",
+    "companyTinPlaceholder": "ИНН компании",
     "emailPlaceholder": "Эл. почта",
     "doneForNow": "Сохранить"
   }

@@ -248,7 +248,7 @@
   },
   "editProfile": {
     "title": "Խմբագրել պրոֆիլը",
-    "subtitle": "Ստորև ցուցադրված են ձեր ընթացիկ տվյալները։ Պահպանման տրամաբանությունը կավելացնենք հաջորդ քայլում։",
+    "subtitle": "Ստորև ցուցադրված են ձեր ընթացիկ տվյալները։",
     "loading": "Պրոֆիլի բեռնում...",
     "error": "Չհաջողվեց բեռնել պրոֆիլի տվյալները։",
     "retry": "Կրկին",
@@ -258,6 +258,10 @@
     "lastNamePlaceholder": "Ազգանուն",
     "phoneLabel": "Հեռախոսահամար",
     "phonePlaceholder": "Հեռախոսահամար",
+    "companyNameLabel": "Ընկերության անվանումը",
+    "companyNamePlaceholder": "Ընկերության անվանումը",
+    "companyTinLabel": "Ընկերության ՀՎՀՀ",
+    "companyTinPlaceholder": "Ընկերության ՀՎՀՀ",
     "emailPlaceholder": "Էլ. փոստ",
     "doneForNow": "Պահպանել"
   }

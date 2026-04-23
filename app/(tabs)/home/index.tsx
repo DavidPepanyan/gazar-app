@@ -1,6 +1,6 @@
 ﻿import { useAuth } from "@clerk/expo";
 import { Image } from "expo-image";
-import { Stack, useRouter } from "expo-router";
+import { Stack, useFocusEffect, useRouter } from "expo-router";
 import { PhoneCall } from "lucide-react-native";
 import React from "react";
 import {
@@ -47,7 +47,6 @@ export default function Home() {
 
   const [banners, setBanners] = React.useState<HomeBanner[]>([]);
   const [isLoadingBanners, setIsLoadingBanners] = React.useState(true);
-  const hasLoadedRef = React.useRef(false);
 
   const handleCallPress = React.useCallback(async () => {
     const canOpen = await Linking.canOpenURL(CONTACT_PHONE_URL);
@@ -72,6 +71,11 @@ export default function Home() {
     }
   }, [getToken]);
 
+  const loadUserDetailsRef = React.useRef(loadUserDetails);
+  React.useEffect(() => {
+    loadUserDetailsRef.current = loadUserDetails;
+  }, [loadUserDetails]);
+
   const loadBanners = React.useCallback(async () => {
     setIsLoadingBanners(true);
     try {
@@ -84,14 +88,11 @@ export default function Home() {
     }
   }, [apiLanguage]);
 
-  React.useEffect(() => {
-    if (hasLoadedRef.current) {
-      return;
-    }
-
-    hasLoadedRef.current = true;
-    void loadUserDetails();
-  }, [loadUserDetails]);
+  useFocusEffect(
+    React.useCallback(() => {
+      void loadUserDetailsRef.current();
+    }, []),
+  );
 
   React.useEffect(() => {
     void loadBanners();

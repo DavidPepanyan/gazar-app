@@ -1,7 +1,7 @@
 ﻿import { useTranslation } from "@/src/hooks/UseTranslation";
 import { useAuth, useUser } from "@clerk/expo";
 import { Image } from "expo-image";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import {
     ChevronRight,
     CircleHelp,
@@ -75,7 +75,6 @@ export default function MoreScreen() {
   const [isLoadingProfile, setIsLoadingProfile] = React.useState(true);
   const [isProfileError, setIsProfileError] = React.useState(false);
   const [isLoggingOut, setIsLoggingOut] = React.useState(false);
-  const hasLoadedRef = React.useRef(false);
 
   const loadUserDetails = React.useCallback(async () => {
     setIsLoadingProfile(true);
@@ -101,14 +100,16 @@ export default function MoreScreen() {
     }
   }, [getToken]);
 
+  const loadUserDetailsRef = React.useRef(loadUserDetails);
   React.useEffect(() => {
-    if (hasLoadedRef.current) {
-      return;
-    }
-
-    hasLoadedRef.current = true;
-    void loadUserDetails();
+    loadUserDetailsRef.current = loadUserDetails;
   }, [loadUserDetails]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      void loadUserDetailsRef.current();
+    }, []),
+  );
 
   const userName =
     apiUser?.name || user?.fullName || user?.firstName || t("more.profile.guestUser");

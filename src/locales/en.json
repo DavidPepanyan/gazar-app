@@ -248,7 +248,7 @@
   },
   "editProfile": {
     "title": "Edit Profile",
-    "subtitle": "Review your current information below. We will add update/save logic next.",
+    "subtitle": "Review your current information below.",
     "loading": "Loading profile...",
     "error": "Could not load profile data.",
     "retry": "Retry",
@@ -258,6 +258,10 @@
     "lastNamePlaceholder": "Last name",
     "phoneLabel": "Phone number",
     "phonePlaceholder": "Phone number",
+    "companyNameLabel": "Company name",
+    "companyNamePlaceholder": "Company name",
+    "companyTinLabel": "Company TIN",
+    "companyTinPlaceholder": "Company TIN",
     "emailPlaceholder": "Email",
     "doneForNow": "Submit"
   }
