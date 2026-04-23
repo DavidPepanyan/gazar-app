@@ -243,5 +243,20 @@
       "q4": "Delivery is carried out within Yerevan.",
       "a4": "We currently deliver only within Yerevan."
     }
+  },
+  "editProfile": {
+    "title": "Edit Profile",
+    "subtitle": "Review your current information below. We will add update/save logic next.",
+    "loading": "Loading profile...",
+    "error": "Could not load profile data.",
+    "retry": "Retry",
+    "firstNameLabel": "First name",
+    "firstNamePlaceholder": "First name",
+    "lastNameLabel": "Last name",
+    "lastNamePlaceholder": "Last name",
+    "phoneLabel": "Phone number",
+    "phonePlaceholder": "Phone number",
+    "emailPlaceholder": "Email",
+    "doneForNow": "Submit"
   }
 }

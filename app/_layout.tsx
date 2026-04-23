@@ -51,6 +51,17 @@ export default function RootLayout() {
             },
           }}
         />
+        <Stack.Screen
+          name="edit-profile"
+          options={{
+            headerShown: false,
+            presentation: "card",
+            headerBackButtonDisplayMode: "minimal",
+            contentStyle: {
+              backgroundColor: "#ffffff",
+            },
+          }}
+        />
         <Stack.Screen name="user-details" options={{ headerShown: false }} />
       </Stack>
     </ClerkProvider>

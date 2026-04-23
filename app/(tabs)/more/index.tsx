@@ -131,6 +131,10 @@ export default function MoreScreen() {
         | "help-support"
         | "logout",
     ) => {
+      if (key === "edit-profile") {
+        router.push("/edit-profile");
+        return;
+      }
       if (key === "language") {
         router.push("/language");
         return;
