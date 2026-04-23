@@ -139,6 +139,10 @@ export default function MoreScreen() {
         router.push("/privacy-policy");
         return;
       }
+      if (key === "help-support") {
+        router.push("/help-support");
+        return;
+      }
 
       if (key !== "logout") {
         Alert.alert(

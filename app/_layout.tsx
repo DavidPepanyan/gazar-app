@@ -40,6 +40,17 @@ export default function RootLayout() {
             },
           }}
         />
+        <Stack.Screen
+          name="help-support"
+          options={{
+            headerShown: true,
+            presentation: "card",
+            headerBackButtonDisplayMode: "minimal",
+            contentStyle: {
+              backgroundColor: "#ffffff",
+            },
+          }}
+        />
         <Stack.Screen name="user-details" options={{ headerShown: false }} />
       </Stack>
     </ClerkProvider>

@@ -219,5 +219,29 @@
     "shippingTermsBody": "Delivery is made only in the city of Yerevan and at the times indicated on the website. One of the most important functions of Gazar.am is to deliver ordered products on time and safely, therefore delivery is made by knowledgeable and experienced couriers. For wholesale orders, special conditions apply for delivery times and parcel storage.",
     "returnPolicyTitle": "Return Policy",
     "returnPolicyBody": "Taking into account that a significant part of agricultural products does not have a defined shelf life and appearance is important for many products, we accept products that the customer did not like or that were not suitable for use. Customers do not pay for products they do not accept, and we can exchange ordered products at the customer's request. If the customer has already paid, but the quality is unsatisfactory or the product is not suitable for use, Gazar.am refunds the full amount."
+  },
+  "helpSupport": {
+    "title": "Help & Support",
+    "headerTitle": "Help & Support",
+    "backButtonA11y": "Go back",
+    "contact": {
+      "phoneLabel": "Phone number",
+      "phoneValue": "+374 55 456 454",
+      "emailLabel": "Email",
+      "emailValue": "Info@gazar.am",
+      "addressLabel": "Address",
+      "addressValue": "17 Sundukyan Street, Yerevan 0012. Monday - Sunday 10:00 - 19:00"
+    },
+    "faq": {
+      "title": "FAQ",
+      "q1": "The order must exceed 5000 AMD.",
+      "a1": "The minimum order amount is 5000 AMD.",
+      "q2": "Delivery and payment are made exclusively in AMD.",
+      "a2": "All delivery and payment operations are processed only in AMD.",
+      "q3": "You can order the product through the app, website, or phone call.",
+      "a3": "Orders can be placed via the mobile app, the website, or by phone call.",
+      "q4": "Delivery is carried out within Yerevan.",
+      "a4": "We currently deliver only within Yerevan."
+    }
   }
 }
