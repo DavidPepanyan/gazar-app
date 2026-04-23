@@ -1,5 +1,7 @@
-﻿import { useAuth, useUser } from "@clerk/expo";
+﻿import { useTranslation } from "@/src/hooks/UseTranslation";
+import { useAuth, useUser } from "@clerk/expo";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import {
     ChevronRight,
     CircleHelp,
@@ -27,45 +29,47 @@ import {
 const menuItems = [
   {
     key: "edit-profile",
-    title: "Edit profile",
-    subtitle: "Update your personal information",
+    titleKey: "more.menu.editProfile.title",
+    subtitleKey: "more.menu.editProfile.subtitle",
     icon: UserRoundPen,
   },
 
   {
     key: "order-history",
-    title: "Order history",
-    subtitle: "View your previous requests",
+    titleKey: "more.menu.orderHistory.title",
+    subtitleKey: "more.menu.orderHistory.subtitle",
     icon: History,
   },
   {
     key: "language",
-    title: "Language",
-    subtitle: "Change application language",
+    titleKey: "more.menu.language.title",
+    subtitleKey: "more.menu.language.subtitle",
     icon: Languages,
   },
   {
     key: "privacy-security",
-    title: "Privacy & Security",
-    subtitle: "Passwords, sessions and privacy",
+    titleKey: "more.menu.privacySecurity.title",
+    subtitleKey: "more.menu.privacySecurity.subtitle",
     icon: Shield,
   },
   {
     key: "help-support",
-    title: "Help & Support",
-    subtitle: "Get help or contact support",
+    titleKey: "more.menu.helpSupport.title",
+    subtitleKey: "more.menu.helpSupport.subtitle",
     icon: CircleHelp,
   },
   {
     key: "logout",
-    title: "Logout",
-    subtitle: "Sign out from this device",
+    titleKey: "more.menu.logout.title",
+    subtitleKey: "more.menu.logout.subtitle",
     icon: LogOut,
   },
 ] as const;
 
 export default function MoreScreen() {
+  const { t } = useTranslation();
   const { getToken, signOut } = useAuth();
+  const router = useRouter();
   const { user } = useUser();
   const [apiUser, setApiUser] = React.useState<UserProfile | null>(null);
   const [isLoadingProfile, setIsLoadingProfile] = React.useState(true);
@@ -117,9 +121,26 @@ export default function MoreScreen() {
   }, [loadUserDetails]);
 
   const handleMenuPress = React.useCallback(
-    async (title: string, key: string) => {
+    async (
+      title: string,
+      key:
+        | "edit-profile"
+        | "order-history"
+        | "language"
+        | "privacy-security"
+        | "help-support"
+        | "logout",
+    ) => {
+      if (key === "language") {
+        router.push("/language");
+        return;
+      }
+
       if (key !== "logout") {
-        Alert.alert("Pressed", `${title} pressed`);
+        Alert.alert(
+          t("more.alerts.pressedTitle"),
+          t("more.alerts.pressedDescription", { title }),
+        );
         return;
       }
 
@@ -131,21 +152,24 @@ export default function MoreScreen() {
         setIsLoggingOut(true);
         await signOut();
       } catch {
-        Alert.alert("Logout failed", "Please try again.");
+        Alert.alert(
+          t("more.alerts.logoutFailedTitle"),
+          t("more.alerts.logoutFailedDescription"),
+        );
       } finally {
         setIsLoggingOut(false);
       }
     },
-    [isLoggingOut, signOut],
+    [isLoggingOut, router, signOut, t],
   );
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1" edges={["top", "bottom"]}>
       <ScrollView
         contentContainerClassName="px-5 pt-6 pb-8"
         showsVerticalScrollIndicator={false}
       >
         <Text className="mb-4 text-2xl leading-7 font-bold text-gray-900">
-          Account
+          {t("more.title")}
         </Text>
 
         <View className="mb-6 rounded-3xl border border-primary/15 px-4 py-4">
@@ -179,19 +203,21 @@ export default function MoreScreen() {
             <View className="flex-row items-center gap-2">
               <ActivityIndicator size="small" color="#7ac943" />
               <Text className="text-sm leading-5 text-gray-500">
-                Loading profile...
+                {t("more.profile.loading")}
               </Text>
             </View>
           ) : isProfileError ? (
             <View className="flex-row items-center justify-between gap-2">
               <Text className="flex-1 text-sm leading-5 text-red-500">
-                Could not load profile data.
+                {t("more.profile.error")}
               </Text>
               <Pressable
                 onPress={handleRetry}
                 className="rounded-full bg-primary/15 px-3 py-1.5"
               >
-                <Text className="text-xs font-bold text-white">Retry</Text>
+                <Text className="text-xs font-bold text-white">
+                  {t("more.profile.retry")}
+                </Text>
               </Pressable>
             </View>
           ) : null}
@@ -208,7 +234,7 @@ export default function MoreScreen() {
                 className={`flex-row items-center justify-between py-4 ${
                   !isLast ? "border-b border-gray-300" : ""
                 }`}
-                onPress={() => void handleMenuPress(item.title, item.key)}
+                onPress={() => void handleMenuPress(t(item.titleKey), item.key)}
               >
                 <View className="flex-1 flex-row items-center gap-3">
                   <View className="h-10 w-10 items-center justify-center rounded-full bg-primary/80">
@@ -217,10 +243,10 @@ export default function MoreScreen() {
 
                   <View className="flex-1">
                     <Text className="text-base leading-6 font-semibold text-gray-900">
-                      {item.title}
+                      {t(item.titleKey)}
                     </Text>
-                    <Text className="text-[13px] leading-[18px] text-gray-600">
-                      {item.subtitle}
+                    <Text className="text-[13px] line-clamp-1 leading-[18px] text-gray-600">
+                      {t(item.subtitleKey)}
                     </Text>
                   </View>
                 </View>

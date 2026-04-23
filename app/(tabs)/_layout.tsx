@@ -1,9 +1,11 @@
 import { useAuth } from "@clerk/expo";
 import { Redirect, Tabs } from "expo-router";
 import { House, Menu, ShoppingBag, ShoppingCart } from "lucide-react-native";
+import { useTranslation } from "@/src/hooks/UseTranslation";
 
 export default function TabsLayout() {
   const { isLoaded, isSignedIn } = useAuth();
+  const { t } = useTranslation();
 
   if (!isLoaded) {
     return null;
@@ -26,14 +28,14 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="home/index"
         options={{
-          title: "Home",
+          title: t("tabs.home"),
           tabBarIcon: ({ color, size }) => <House color={color} size={size} />,
         }}
       />
       <Tabs.Screen
         name="shop/index"
         options={{
-          title: "Shop",
+          title: t("tabs.shop"),
           tabBarIcon: ({ color, size }) => (
             <ShoppingBag color={color} size={size} />
           ),
@@ -42,7 +44,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="basket/index"
         options={{
-          title: "Basket",
+          title: t("tabs.basket"),
           tabBarIcon: ({ color, size }) => (
             <ShoppingCart color={color} size={size} />
           ),
@@ -51,7 +53,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="more/index"
         options={{
-          title: "More",
+          title: t("tabs.more"),
           tabBarIcon: ({ color, size }) => <Menu color={color} size={size} />,
         }}
       />

@@ -1,0 +1,56 @@
+{
+  "tabs": {
+    "home": "Home",
+    "shop": "Shop",
+    "basket": "Basket",
+    "more": "More"
+  },
+  "more": {
+    "title": "Account",
+    "profile": {
+      "loading": "Loading profile...",
+      "error": "Could not load profile data.",
+      "retry": "Retry"
+    },
+    "menu": {
+      "editProfile": {
+        "title": "Edit profile",
+        "subtitle": "Update your personal information"
+      },
+      "orderHistory": {
+        "title": "Order history",
+        "subtitle": "View your previous requests"
+      },
+      "language": {
+        "title": "Language",
+        "subtitle": "Change application language"
+      },
+      "privacySecurity": {
+        "title": "Privacy & Security",
+        "subtitle": "Passwords, sessions and privacy"
+      },
+      "helpSupport": {
+        "title": "Help & Support",
+        "subtitle": "Get help or contact support"
+      },
+      "logout": {
+        "title": "Logout",
+        "subtitle": "Sign out from this device"
+      }
+    },
+    "alerts": {
+      "pressedTitle": "Pressed",
+      "pressedDescription": "{{title}} pressed",
+      "logoutFailedTitle": "Logout failed",
+      "logoutFailedDescription": "Please try again."
+    }
+  },
+  "languageScreen": {
+    "title": "Language",
+    "items": {
+      "hy": "Armenian",
+      "ru": "Russian",
+      "en": "English"
+    }
+  }
+}

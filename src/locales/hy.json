@@ -1,0 +1,56 @@
+{
+  "tabs": {
+    "home": "Գլխավոր",
+    "shop": "Խանութ",
+    "basket": "Զամբյուղ",
+    "more": "Ավելին"
+  },
+  "more": {
+    "title": "Հաշիվ",
+    "profile": {
+      "loading": "Տվյալների բեռնում...",
+      "error": "Չհաջողվեց բեռնել պրոֆիլի տվյալները։",
+      "retry": "Կրկին"
+    },
+    "menu": {
+      "editProfile": {
+        "title": "Խմբագրել պրոֆիլը",
+        "subtitle": "Թարմացրեք անձնական տվյալները"
+      },
+      "orderHistory": {
+        "title": "Պատվերների պատմություն",
+        "subtitle": "Դիտել նախորդ հայտերը"
+      },
+      "language": {
+        "title": "Լեզու",
+        "subtitle": "Փոխել հավելվածի լեզուն"
+      },
+      "privacySecurity": {
+        "title": "Գաղտնիություն և անվտանգություն",
+        "subtitle": "Գաղտնաբառեր, սեսիաներ և գաղտնիություն"
+      },
+      "helpSupport": {
+        "title": "Օգնություն և աջակցություն",
+        "subtitle": "Ստացեք օգնություն կամ կապվեք աջակցության հետ"
+      },
+      "logout": {
+        "title": "Ելք",
+        "subtitle": "Դուրս գալ այս սարքից"
+      }
+    },
+    "alerts": {
+      "pressedTitle": "Սեղմված է",
+      "pressedDescription": "Սեղմվել է՝ {{title}}",
+      "logoutFailedTitle": "Ելքը ձախողվեց",
+      "logoutFailedDescription": "Խնդրում ենք փորձել կրկին։"
+    }
+  },
+  "languageScreen": {
+    "title": "Լեզու",
+    "items": {
+      "hy": "Հայերեն",
+      "ru": "Ռուսերեն",
+      "en": "Անգլերեն"
+    }
+  }
+}
