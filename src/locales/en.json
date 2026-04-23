@@ -13,6 +13,7 @@
   },
   "shop": {
     "title": "Shop",
+    "productsTitle": "Products",
     "loadingProducts": "Loading products...",
     "noProducts": "No products found for this category."
   },
@@ -35,7 +36,7 @@
     "product": {
       "noImage": "No image",
       "sale": "Sale",
-      "addToBasket": "Add to basket",
+      "addToBasket": "Add",
       "addToBasketA11y": "Add {{title}} to basket"
     }
   },

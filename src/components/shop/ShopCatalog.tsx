@@ -39,7 +39,7 @@ export const ShopCatalog = React.memo<ShopCatalogProps>(({ selectedCategoryId = 
   const apiLanguage = React.useMemo(() => {
     const language = (i18n.resolvedLanguage || i18n.language || "en").toLowerCase();
     if (language.startsWith("hy")) {
-      return "HY";
+      return "AM";
     }
     if (language.startsWith("ru")) {
       return "RU";
@@ -156,17 +156,21 @@ export const ShopCatalog = React.memo<ShopCatalogProps>(({ selectedCategoryId = 
           onSelectCategory={handleSelectCategory}
         />
 
+        <View className="mx-6 mb-3 mt-4 flex-row items-center justify-between">
+          <Text className="text-lg font-bold text-gray-900">{t("shop.productsTitle")}</Text>
+        </View>
+
         {isLoadingProducts ? (
-          <View className="mx-6 mt-4 h-[120px] items-center justify-center rounded-3xl bg-gray-50">
+          <View className="mx-6 h-[120px] items-center justify-center rounded-3xl bg-gray-50">
             <ActivityIndicator size="small" color="#7ac943" />
             <Text className="mt-2 text-sm text-gray-500">{t("shop.loadingProducts")}</Text>
           </View>
         ) : !products.length ? (
-          <View className="mx-6 mt-4 h-[120px] items-center justify-center rounded-3xl bg-gray-50">
+          <View className="mx-6 h-[120px] items-center justify-center rounded-3xl bg-gray-50">
             <Text className="text-sm text-gray-500">{t("shop.noProducts")}</Text>
           </View>
         ) : (
-          <View className="mx-6 mt-4 flex-row flex-wrap justify-between">
+          <View className="mx-6 flex-row flex-wrap justify-between">
             {products.map((product) => {
               const currentQuantity = quantities[product.id] ?? product.minLimit;
               const discountedPrice = getDiscountedPrice(product);
@@ -182,9 +186,8 @@ export const ShopCatalog = React.memo<ShopCatalogProps>(({ selectedCategoryId = 
                     {product.image ? (
                       <Image
                         source={{ uri: product.image }}
-                        contentFit="contain"
-                        className="h-full w-full"
-                        style={{ width: 160, height: 120 }}
+                        className="h-full w-full "
+                        style={{ width: 140, height: 120 }}
                       />
                     ) : (
                       <View className="h-full w-full items-center justify-center">

@@ -37,7 +37,7 @@ export default function Home() {
   const apiLanguage = React.useMemo(() => {
     const language = (i18n.resolvedLanguage || i18n.language || "en").toLowerCase();
     if (language.startsWith("hy")) {
-      return "HY";
+      return "AM";
     }
     if (language.startsWith("ru")) {
       return "RU";

@@ -69,7 +69,7 @@ export interface HomeFavoriteProduct {
   category: string;
   categorySlug: string;
   price: number;
-  unit: "piece" | "kg";
+  unit: "pc" | "kg";
   discount: number;
   discountType: string;
   discountActive: boolean;
@@ -157,7 +157,7 @@ export const fetchHomeFavoriteProducts = async (
       category: categoryName,
       categorySlug: toCategorySlug(categoryName),
       price: product.price || 0,
-      unit: product.unit === "kg" ? "kg" : "piece",
+      unit: product.unit === "kg" ? "kg" : "pc",
       discount: product.discount || 0,
       discountType: product.discountType || "PRICE",
       discountActive: Boolean(product.discountActive),

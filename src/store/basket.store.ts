@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 type DiscountType = "PRICE" | "PERCENT" | string;
-type ProductUnit = "piece" | "kg";
+type ProductUnit = "pc" | "kg";
 
 export interface BasketItem {
   id: number;

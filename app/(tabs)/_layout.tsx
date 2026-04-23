@@ -6,6 +6,7 @@ import { House, Menu, ShoppingBag, ShoppingCart } from "lucide-react-native";
 export default function TabsLayout() {
   const { isLoaded, isSignedIn } = useAuth();
   const { t } = useTranslation();
+  // const router = useRouter();
 
   if (!isLoaded) {
     return null;
@@ -40,6 +41,11 @@ export default function TabsLayout() {
             <ShoppingBag color={color} size={size} />
           ),
         }}
+        // listeners={{
+        //   tabPress: () => {
+        //     router.replace("/(tabs)/shop");
+        //   },
+        // }}
       />
       <Tabs.Screen
         name="basket/index"

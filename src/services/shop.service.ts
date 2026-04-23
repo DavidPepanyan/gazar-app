@@ -30,7 +30,7 @@ export interface ShopProduct {
   title: string;
   category: string;
   price: number;
-  unit: "piece" | "kg";
+  unit: "pc" | "kg";
   discount: number;
   discountType: string;
   discountActive: boolean;
@@ -60,7 +60,7 @@ export const fetchShopProducts = async (
     title: product.gzProductDetails?.[0]?.name?.trim() || product.slug || "",
     category: product.GzCategory?.name || "",
     price: product.price || 0,
-    unit: product.unit === "kg" ? "kg" : "piece",
+    unit: product.unit === "kg" ? "kg" : "pc",
     discount: product.discount || 0,
     discountType: product.discountType || "PRICE",
     discountActive: Boolean(product.discountActive),
