@@ -15,35 +15,44 @@ import {
     View,
 } from "react-native";
 import { z } from "zod";
+import { useTranslation } from "@/src/hooks/UseTranslation";
 import {
     fetchCurrentUserProfile,
     updateCurrentUserProfile,
 } from "../src/services/user.service";
 
-const userDetailsSchema = z.object({
-  firstName: z
-    .string()
-    .trim()
-    .min(1, "First name is required")
-    .min(2, "First name must be at least 2 characters"),
-  lastName: z
-    .string()
-    .trim()
-    .min(1, "Last name is required")
-    .min(2, "Last name must be at least 2 characters"),
-  phoneNumber: z
-    .string()
-    .trim()
-    .min(1, "Phone number is required")
-    .regex(/^\+?[0-9]{7,15}$/, "Enter a valid phone number"),
-});
-
-type UserDetailsFormValues = z.infer<typeof userDetailsSchema>;
+interface UserDetailsFormValues {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+}
 
 export default function UserDetailsScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const { isSignedIn, isLoaded, getToken } = useAuth();
   const [submitError, setSubmitError] = React.useState("");
+  const userDetailsSchema = React.useMemo(
+    () =>
+      z.object({
+        firstName: z
+          .string()
+          .trim()
+          .min(1, t("userDetails.validation.firstNameRequired"))
+          .min(2, t("userDetails.validation.firstNameMin")),
+        lastName: z
+          .string()
+          .trim()
+          .min(1, t("userDetails.validation.lastNameRequired"))
+          .min(2, t("userDetails.validation.lastNameMin")),
+        phoneNumber: z
+          .string()
+          .trim()
+          .min(1, t("userDetails.validation.phoneRequired"))
+          .regex(/^\+?[0-9]{7,15}$/, t("userDetails.validation.phoneInvalid")),
+      }),
+    [t],
+  );
 
   const {
     control,
@@ -93,7 +102,7 @@ export default function UserDetailsScreen() {
 
     const token = await getToken();
     if (!token) {
-      setSubmitError("Could not authorize your session. Please sign in again.");
+      setSubmitError(t("userDetails.errors.authFailed"));
       return;
     }
 
@@ -105,12 +114,8 @@ export default function UserDetailsScreen() {
       });
 
       router.replace("/(tabs)/home");
-    } catch (error) {
-      setSubmitError(
-        error instanceof Error
-          ? error.message
-          : "Could not save your details. Please try again.",
-      );
+    } catch {
+      setSubmitError(t("userDetails.errors.saveFailed"));
     }
   };
 
@@ -135,10 +140,10 @@ export default function UserDetailsScreen() {
           >
             <View className="flex-1 bg-white px-8 pt-24 pb-12">
               <Text className="text-3xl font-bold text-center text-gray-800">
-                Complete Your Profile
+                {t("userDetails.title")}
               </Text>
               <Text className="text-center text-gray-500 mt-3 mb-10">
-                Add your first name, last name, and phone number.
+                {t("userDetails.subtitle")}
               </Text>
 
               {!!submitError && (
@@ -155,7 +160,7 @@ export default function UserDetailsScreen() {
                 render={({ field: { value, onChange, onBlur } }) => (
                   <>
                     <TextInput
-                      placeholder="First name"
+                      placeholder={t("userDetails.firstNamePlaceholder")}
                       placeholderTextColor="#9CA3AF"
                       className="rounded-2xl px-4 py-4 text-base bg-gray-200"
                       value={value}
@@ -178,7 +183,7 @@ export default function UserDetailsScreen() {
                 render={({ field: { value, onChange, onBlur } }) => (
                   <>
                     <TextInput
-                      placeholder="Last name"
+                      placeholder={t("userDetails.lastNamePlaceholder")}
                       placeholderTextColor="#9CA3AF"
                       className="rounded-2xl px-4 py-4 text-base bg-gray-200 mt-2"
                       value={value}
@@ -201,7 +206,7 @@ export default function UserDetailsScreen() {
                 render={({ field: { value, onChange, onBlur } }) => (
                   <>
                     <TextInput
-                      placeholder="Phone number"
+                      placeholder={t("userDetails.phonePlaceholder")}
                       placeholderTextColor="#9CA3AF"
                       className="rounded-2xl px-4 py-4 text-base bg-gray-200 mt-2"
                       value={value}
@@ -223,10 +228,10 @@ export default function UserDetailsScreen() {
                 disabled={!isValid || isSubmitting}
                 className="bg-primary py-4 rounded-2xl items-center mt-8 opacity-100 disabled:opacity-50"
                 accessibilityRole="button"
-                accessibilityLabel="Continue to app"
+                accessibilityLabel={t("userDetails.continueA11y")}
               >
                 <Text className="text-white font-semibold text-base">
-                  {isSubmitting ? "Saving..." : "Continue"}
+                  {isSubmitting ? t("userDetails.saving") : t("userDetails.continue")}
                 </Text>
               </Pressable>
             </View>

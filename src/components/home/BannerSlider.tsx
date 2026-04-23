@@ -4,6 +4,7 @@ import React from "react";
 import { Dimensions, Pressable, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { HomeBanner } from "../../services/home.service";
+import { useTranslation } from "@/src/hooks/UseTranslation";
 
 interface BannerSliderProps {
   banners: HomeBanner[];
@@ -17,6 +18,7 @@ const BANNER_HEIGHT = 180;
 export const BannerSlider = React.memo<BannerSliderProps>(
   ({ banners, onBannerPress }) => {
     const router = useRouter();
+    const { t } = useTranslation();
     const [currentIndex, setCurrentIndex] = React.useState(0);
     const handleShopNowPress = React.useCallback(() => {
       router.push("/(tabs)/shop");
@@ -85,7 +87,7 @@ export const BannerSlider = React.memo<BannerSliderProps>(
                   className="self-start rounded-full bg-primary px-4 py-1.5"
                 >
                   <Text className="text-base font-bold text-white">
-                    Shop Now
+                    {t("home.banner.shopNow")}
                   </Text>
                 </Pressable>
               </View>

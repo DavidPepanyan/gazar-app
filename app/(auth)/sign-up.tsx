@@ -13,11 +13,13 @@ import {
     TouchableWithoutFeedback,
     View,
 } from "react-native";
+import { useTranslation } from "@/src/hooks/UseTranslation";
 
 export default function Register() {
   const { signUp, fetchStatus } = useSignUp();
   const { isSignedIn, isLoaded } = useAuth();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [emailAddress, setEmailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -43,8 +45,8 @@ export default function Register() {
     if (error) {
       setFormError(
         error.message?.includes("password")
-          ? "Password is too weak or was found in a breach. Try another one."
-          : error.message || "Sign up failed",
+          ? t("auth.signUp.errors.weakPassword")
+          : error.message || t("auth.signUp.errors.failed"),
       );
       return;
     }
@@ -61,7 +63,7 @@ export default function Register() {
     });
 
     if (error) {
-      setFormError("Invalid verification code");
+      setFormError(t("auth.common.errors.invalidVerificationCode"));
       return;
     }
 
@@ -80,11 +82,11 @@ export default function Register() {
 
     const { error } = await signUp.verifications.sendEmailCode();
     if (error) {
-      setFormError("Could not resend code. Please try again.");
+      setFormError(t("auth.common.errors.resendCodeFailed"));
       return;
     }
 
-    setResendMessage("Code was resent.");
+    setResendMessage(t("auth.common.resendCodeSuccess"));
   };
 
   if (!isLoaded) {
@@ -119,7 +121,7 @@ export default function Register() {
 
               {/* TITLE */}
               <Text className="text-2xl font-bold text-center mt-28 mb-8 text-gray-800">
-                {isVerifyStep ? "Verify code" : "Create Account"}
+                {isVerifyStep ? t("auth.common.verifyCodeTitle") : t("auth.signUp.title")}
               </Text>
 
               {/* ERROR */}
@@ -133,7 +135,7 @@ export default function Register() {
               {!isVerifyStep ? (
                 <View>
                   <TextInput
-                    placeholder="Email"
+                    placeholder={t("auth.common.emailPlaceholder")}
                     placeholderTextColor="#9CA3AF"
                     className="rounded-2xl px-4 py-4 mb-4 text-base bg-gray-200 leading-0 "
                     value={emailAddress}
@@ -141,7 +143,7 @@ export default function Register() {
                   />
 
                   <TextInput
-                    placeholder="Password"
+                    placeholder={t("auth.common.passwordPlaceholder")}
                     placeholderTextColor="#9CA3AF"
                     secureTextEntry
                     className="rounded-2xl px-4 py-4 mb-6 text-base bg-gray-200 leading-0 "
@@ -157,14 +159,14 @@ export default function Register() {
                     className="bg-primary py-4 rounded-2xl items-center mb-4 opacity-100 disabled:opacity-50"
                   >
                     <Text className="text-white font-semibold text-base">
-                      Sign up
+                      {t("auth.signUp.submit")}
                     </Text>
                   </Pressable>
                 </View>
               ) : (
                 <View>
                   <TextInput
-                    placeholder="Verification code"
+                    placeholder={t("auth.common.verificationCodePlaceholder")}
                     placeholderTextColor="#9CA3AF"
                     keyboardType="numeric"
                     className="rounded-2xl px-4 py-4 mb-6 text-base bg-gray-200 leading-0 "
@@ -178,7 +180,7 @@ export default function Register() {
                     className="bg-primary py-4 rounded-2xl items-center mb-4"
                   >
                     <Text className="text-white font-semibold text-base">
-                      Verify
+                      {t("auth.common.verify")}
                     </Text>
                   </Pressable>
 
@@ -191,7 +193,7 @@ export default function Register() {
                     }`}
                   >
                     <Text className="text-center text-gray-500">
-                      Resend code
+                      {t("auth.common.resendCode")}
                     </Text>
                   </Pressable>
                   {!!resendMessage && (
@@ -216,12 +218,12 @@ export default function Register() {
               {/* FOOTER */}
               <View className="mt-auto items-center pb-28">
                 <Text className="text-gray-500">
-                  If you already have an account?{" "}
+                  {t("auth.signUp.haveAccount")}{" "}
                   <Text
                     className="text-primary font-semibold"
                     onPress={() => router.push("/(auth)/sign-in")}
                   >
-                    Sign In
+                    {t("auth.signUp.signIn")}
                   </Text>
                 </Text>
               </View>

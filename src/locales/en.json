@@ -1,16 +1,144 @@
 {
+  "common": {
+    "guest": "Guest"
+  },
+  "onboarding": {
+    "welcomeButton": "Welcome"
+  },
   "tabs": {
     "home": "Home",
     "shop": "Shop",
     "basket": "Basket",
     "more": "More"
   },
+  "shop": {
+    "title": "Shop"
+  },
+  "home": {
+    "greeting": "Hello, {{name}}",
+    "supportCallLabel": "Call support {{phone}}",
+    "loadingOffers": "Loading offers...",
+    "categoriesTitle": "Categories",
+    "favoriteProductsTitle": "Favorite products",
+    "deliveryTitle": "Free Delivery",
+    "deliveryWindows": {
+      "morning": "Morning freshness",
+      "midday": "A healthy break",
+      "afternoon": "Late-day freshness",
+      "evening": "Vitamin charging"
+    },
+    "banner": {
+      "shopNow": "Shop Now"
+    },
+    "product": {
+      "noImage": "No image",
+      "sale": "Sale",
+      "addToBasket": "Add to basket",
+      "addToBasketA11y": "Add {{title}} to basket"
+    }
+  },
+  "basket": {
+    "title": "Basket",
+    "empty": "Your basket is empty.",
+    "clearAll": "Clear all",
+    "clearBasketA11y": "Clear basket",
+    "totalItems": "Total items: {{count}}",
+    "totalPrice": "Total price: {{price}}",
+    "noImage": "No image",
+    "remove": "Remove",
+    "removeItemA11y": "Remove {{name}} from basket",
+    "checkout": "Checkout",
+    "checkoutA11y": "Go to checkout"
+  },
+  "quantity": {
+    "decreaseA11y": "Decrease quantity",
+    "increaseA11y": "Increase quantity"
+  },
+  "auth": {
+    "common": {
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Password",
+      "verificationCodePlaceholder": "Verification code",
+      "verifyCodeTitle": "Verify code",
+      "verify": "Verify",
+      "resendCode": "Resend code",
+      "resendCodeSuccess": "Code was resent.",
+      "startOver": "Start over",
+      "errors": {
+        "invalidVerificationCode": "Invalid verification code",
+        "resendCodeFailed": "Could not resend code. Please try again."
+      }
+    },
+    "signIn": {
+      "title": "Welcome Back!",
+      "continue": "Continue",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don’t have an account?",
+      "signUp": "Sign up",
+      "errors": {
+        "failed": "Sign in failed",
+        "invalidPassword": "Invalid password",
+        "emailNotFound": "Email not found"
+      }
+    },
+    "signUp": {
+      "title": "Create Account",
+      "submit": "Sign up",
+      "haveAccount": "If you already have an account?",
+      "signIn": "Sign In",
+      "errors": {
+        "failed": "Sign up failed",
+        "weakPassword": "Password is too weak or was found in a breach. Try another one."
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "sendCode": "Send reset code",
+      "errors": {
+        "startFailed": "Could not start reset flow.",
+        "sendCodeFailed": "Could not send reset code."
+      }
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "newPasswordPlaceholder": "New password",
+      "updatePassword": "Update password",
+      "errors": {
+        "resetFailed": "Could not reset password.",
+        "sessionNotCompleted": "Password updated, but your session was not completed."
+      }
+    }
+  },
+  "userDetails": {
+    "title": "Complete Your Profile",
+    "subtitle": "Add your first name, last name, and phone number.",
+    "firstNamePlaceholder": "First name",
+    "lastNamePlaceholder": "Last name",
+    "phonePlaceholder": "Phone number",
+    "continue": "Continue",
+    "saving": "Saving...",
+    "continueA11y": "Continue to app",
+    "errors": {
+      "authFailed": "Could not authorize your session. Please sign in again.",
+      "saveFailed": "Could not save your details. Please try again."
+    },
+    "validation": {
+      "firstNameRequired": "First name is required",
+      "firstNameMin": "First name must be at least 2 characters",
+      "lastNameRequired": "Last name is required",
+      "lastNameMin": "Last name must be at least 2 characters",
+      "phoneRequired": "Phone number is required",
+      "phoneInvalid": "Enter a valid phone number"
+    }
+  },
   "more": {
     "title": "Account",
     "profile": {
       "loading": "Loading profile...",
       "error": "Could not load profile data.",
-      "retry": "Retry"
+      "retry": "Retry",
+      "guestUser": "Guest User",
+      "guestEmail": "guest@example.com"
     },
     "menu": {
       "editProfile": {

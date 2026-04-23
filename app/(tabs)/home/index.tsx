@@ -12,6 +12,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "@/src/hooks/UseTranslation";
 import { BannerSlider } from "../../../src/components/home/BannerSlider";
 import { Categories } from "../../../src/components/home/Categories";
 import { DeliveryInfo } from "../../../src/components/home/DeliveryInfo";
@@ -29,7 +30,19 @@ export default function Home() {
   const CONTACT_PHONE = "+374 55 456 454";
   const CONTACT_PHONE_URL = "tel:+37455456454";
   const { getToken } = useAuth();
+  const { t, i18n } = useTranslation();
   const [apiUser, setApiUser] = React.useState<UserProfile | null>(null);
+  const apiLanguage = React.useMemo(() => {
+    const language = (i18n.resolvedLanguage || i18n.language || "en").toLowerCase();
+    if (language.startsWith("hy")) {
+      return "HY";
+    }
+    if (language.startsWith("ru")) {
+      return "RU";
+    }
+    return "EN";
+  }, [i18n.language, i18n.resolvedLanguage]);
+
   const [banners, setBanners] = React.useState<HomeBanner[]>([]);
   const [isLoadingBanners, setIsLoadingBanners] = React.useState(true);
   const hasLoadedRef = React.useRef(false);
@@ -60,14 +73,14 @@ export default function Home() {
   const loadBanners = React.useCallback(async () => {
     setIsLoadingBanners(true);
     try {
-      const data = await fetchHomeMainSlider("EN");
+      const data = await fetchHomeMainSlider(apiLanguage);
       setBanners(data);
     } catch {
       setBanners([]);
     } finally {
       setIsLoadingBanners(false);
     }
-  }, []);
+  }, [apiLanguage]);
 
   React.useEffect(() => {
     if (hasLoadedRef.current) {
@@ -76,10 +89,13 @@ export default function Home() {
 
     hasLoadedRef.current = true;
     void loadUserDetails();
-    void loadBanners();
-  }, [loadUserDetails, loadBanners]);
+  }, [loadUserDetails]);
 
-  const userName = apiUser?.name || "Guest";
+  React.useEffect(() => {
+    void loadBanners();
+  }, [loadBanners]);
+
+  const userName = apiUser?.name || t("common.guest");
   const userInitial = userName[0]?.toUpperCase() || "G";
 
   return (
@@ -110,7 +126,7 @@ export default function Home() {
               )}
 
               <Text className="text-lg leading-normal font-bold tracking-tight text-gray-900">
-                Hello, {userName}
+                {t("home.greeting", { name: userName })}
               </Text>
             </View>
 
@@ -119,7 +135,7 @@ export default function Home() {
                 void handleCallPress();
               }}
               accessibilityRole="button"
-              accessibilityLabel={`Call support ${CONTACT_PHONE}`}
+              accessibilityLabel={t("home.supportCallLabel", { phone: CONTACT_PHONE })}
               className="h-[42px] w-[42px] items-center justify-center "
             >
               <PhoneCall size={25} color="#7ac943" />
@@ -131,7 +147,7 @@ export default function Home() {
               <View className="mx-6 h-[160px] items-center justify-center rounded-3xl bg-orange-50">
                 <ActivityIndicator size="small" color="#ff7a00" />
                 <Text className="mt-2 text-sm text-primary">
-                  Loading offers...
+                  {t("home.loadingOffers")}
                 </Text>
               </View>
             ) : (

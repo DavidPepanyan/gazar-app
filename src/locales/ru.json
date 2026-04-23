@@ -1,16 +1,144 @@
 {
+  "common": {
+    "guest": "Гость"
+  },
+  "onboarding": {
+    "welcomeButton": "Добро пожаловать"
+  },
   "tabs": {
     "home": "Главная",
     "shop": "Магазин",
     "basket": "Корзина",
     "more": "Еще"
   },
+  "shop": {
+    "title": "Магазин"
+  },
+  "home": {
+    "greeting": "Привет, {{name}}",
+    "supportCallLabel": "Позвонить в поддержку {{phone}}",
+    "loadingOffers": "Загрузка предложений...",
+    "categoriesTitle": "Категории",
+    "favoriteProductsTitle": "Любимые товары",
+    "deliveryTitle": "Бесплатная доставка",
+    "deliveryWindows": {
+      "morning": "Утренняя свежесть",
+      "midday": "Полезный перерыв",
+      "afternoon": "Свежесть в конце дня",
+      "evening": "Витаминный заряд"
+    },
+    "banner": {
+      "shopNow": "Купить сейчас"
+    },
+    "product": {
+      "noImage": "Нет изображения",
+      "sale": "Скидка",
+      "addToBasket": "В корзину",
+      "addToBasketA11y": "Добавить {{title}} в корзину"
+    }
+  },
+  "basket": {
+    "title": "Корзина",
+    "empty": "Ваша корзина пуста.",
+    "clearAll": "Очистить все",
+    "clearBasketA11y": "Очистить корзину",
+    "totalItems": "Всего товаров: {{count}}",
+    "totalPrice": "Итоговая цена: {{price}}",
+    "noImage": "Нет изображения",
+    "remove": "Удалить",
+    "removeItemA11y": "Удалить {{name}} из корзины",
+    "checkout": "Оформить заказ",
+    "checkoutA11y": "Перейти к оформлению заказа"
+  },
+  "quantity": {
+    "decreaseA11y": "Уменьшить количество",
+    "increaseA11y": "Увеличить количество"
+  },
+  "auth": {
+    "common": {
+      "emailPlaceholder": "Эл. почта",
+      "passwordPlaceholder": "Пароль",
+      "verificationCodePlaceholder": "Код подтверждения",
+      "verifyCodeTitle": "Подтвердите код",
+      "verify": "Подтвердить",
+      "resendCode": "Отправить код снова",
+      "resendCodeSuccess": "Код был отправлен повторно.",
+      "startOver": "Начать заново",
+      "errors": {
+        "invalidVerificationCode": "Неверный код подтверждения",
+        "resendCodeFailed": "Не удалось отправить код повторно. Попробуйте еще раз."
+      }
+    },
+    "signIn": {
+      "title": "С возвращением!",
+      "continue": "Продолжить",
+      "forgotPassword": "Забыли пароль?",
+      "noAccount": "Нет аккаунта?",
+      "signUp": "Зарегистрироваться",
+      "errors": {
+        "failed": "Не удалось войти",
+        "invalidPassword": "Неверный пароль",
+        "emailNotFound": "Email не найден"
+      }
+    },
+    "signUp": {
+      "title": "Создать аккаунт",
+      "submit": "Зарегистрироваться",
+      "haveAccount": "Уже есть аккаунт?",
+      "signIn": "Войти",
+      "errors": {
+        "failed": "Не удалось зарегистрироваться",
+        "weakPassword": "Пароль слишком слабый или найден в утечке. Попробуйте другой."
+      }
+    },
+    "forgotPassword": {
+      "title": "Забыли пароль",
+      "sendCode": "Отправить код сброса",
+      "errors": {
+        "startFailed": "Не удалось начать восстановление.",
+        "sendCodeFailed": "Не удалось отправить код сброса."
+      }
+    },
+    "resetPassword": {
+      "title": "Сброс пароля",
+      "newPasswordPlaceholder": "Новый пароль",
+      "updatePassword": "Обновить пароль",
+      "errors": {
+        "resetFailed": "Не удалось сбросить пароль.",
+        "sessionNotCompleted": "Пароль обновлен, но сессия не была завершена."
+      }
+    }
+  },
+  "userDetails": {
+    "title": "Заполните профиль",
+    "subtitle": "Добавьте имя, фамилию и номер телефона.",
+    "firstNamePlaceholder": "Имя",
+    "lastNamePlaceholder": "Фамилия",
+    "phonePlaceholder": "Номер телефона",
+    "continue": "Продолжить",
+    "saving": "Сохранение...",
+    "continueA11y": "Продолжить в приложение",
+    "errors": {
+      "authFailed": "Не удалось авторизовать сессию. Войдите снова.",
+      "saveFailed": "Не удалось сохранить данные. Попробуйте еще раз."
+    },
+    "validation": {
+      "firstNameRequired": "Имя обязательно",
+      "firstNameMin": "Имя должно содержать минимум 2 символа",
+      "lastNameRequired": "Фамилия обязательна",
+      "lastNameMin": "Фамилия должна содержать минимум 2 символа",
+      "phoneRequired": "Номер телефона обязателен",
+      "phoneInvalid": "Введите корректный номер телефона"
+    }
+  },
   "more": {
     "title": "Аккаунт",
     "profile": {
       "loading": "Загрузка профиля...",
       "error": "Не удалось загрузить данные профиля.",
-      "retry": "Повторить"
+      "retry": "Повторить",
+      "guestUser": "Гостевой пользователь",
+      "guestEmail": "guest@example.com"
     },
     "menu": {
       "editProfile": {

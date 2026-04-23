@@ -3,10 +3,12 @@ import { Image, ImageBackground } from "expo-image";
 import { Redirect, useRouter } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "@/src/hooks/UseTranslation";
 
 export default function App() {
   const { isLoaded, isSignedIn } = useAuth();
   const router = useRouter();
+  const { t } = useTranslation();
 
   if (!isLoaded) {
     return null;
@@ -39,7 +41,7 @@ export default function App() {
             className="bg-primary px-5 py-3 rounded-3xl w-[90%] self-center items-center justify-center"
           >
             <Text className="text-white font-bold text-center text-xl">
-              Welcome
+              {t("onboarding.welcomeButton")}
             </Text>
           </Pressable>
         </View>

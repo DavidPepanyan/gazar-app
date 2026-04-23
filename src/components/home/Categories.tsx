@@ -1,27 +1,39 @@
 import { Image } from "expo-image";
 import React from "react";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { useTranslation } from "@/src/hooks/UseTranslation";
 import {
   fetchHomeCategories,
   HomeCategory,
 } from "../../services/home.service";
 
 export const Categories = React.memo(() => {
+  const { t, i18n } = useTranslation();
   const [categories, setCategories] = React.useState<HomeCategory[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const apiLanguage = React.useMemo(() => {
+    const language = (i18n.resolvedLanguage || i18n.language || "en").toLowerCase();
+    if (language.startsWith("hy")) {
+      return "HY";
+    }
+    if (language.startsWith("ru")) {
+      return "RU";
+    }
+    return "EN";
+  }, [i18n.language, i18n.resolvedLanguage]);
 
   const loadCategories = React.useCallback(async () => {
     setIsLoading(true);
 
     try {
-      const data = await fetchHomeCategories("EN");
+      const data = await fetchHomeCategories(apiLanguage);
       setCategories(data);
     } catch {
       setCategories([]);
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [apiLanguage]);
 
   React.useEffect(() => {
     void loadCategories();
@@ -31,7 +43,7 @@ export const Categories = React.memo(() => {
     return (
       <View className="mt-4">
         <View className="mx-6 mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-bold text-gray-900">Categories</Text>
+          <Text className="text-lg font-bold text-gray-900">{t("home.categoriesTitle")}</Text>
         </View>
         <View className="mx-6 h-[92px] items-center justify-center rounded-3xl bg-gray-50">
           <ActivityIndicator size="small" color="#7ac943" />
@@ -47,7 +59,7 @@ export const Categories = React.memo(() => {
   return (
     <View className="mt-4">
       <View className="mx-6 mb-3 flex-row items-center justify-between">
-        <Text className="text-lg font-bold text-gray-900">Categories</Text>
+        <Text className="text-lg font-bold text-gray-900">{t("home.categoriesTitle")}</Text>
       </View>
 
       <ScrollView

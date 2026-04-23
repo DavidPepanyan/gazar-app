@@ -1,16 +1,144 @@
 {
+  "common": {
+    "guest": "Հյուր"
+  },
+  "onboarding": {
+    "welcomeButton": "Բարի գալուստ"
+  },
   "tabs": {
     "home": "Գլխավոր",
     "shop": "Խանութ",
     "basket": "Զամբյուղ",
     "more": "Ավելին"
   },
+  "shop": {
+    "title": "Խանութ"
+  },
+  "home": {
+    "greeting": "Բարև, {{name}}",
+    "supportCallLabel": "Զանգահարել աջակցություն {{phone}}",
+    "loadingOffers": "Առաջարկների բեռնում...",
+    "categoriesTitle": "Կատեգորիաներ",
+    "favoriteProductsTitle": "Սիրված ապրանքներ",
+    "deliveryTitle": "Անվճար առաքում",
+    "deliveryWindows": {
+      "morning": "Առավոտյան թարմություն",
+      "midday": "Առողջ ընդմիջում",
+      "afternoon": "Թարմություն օրվա վերջում",
+      "evening": "Վիտամինային լիցք"
+    },
+    "banner": {
+      "shopNow": "Գնել հիմա"
+    },
+    "product": {
+      "noImage": "Պատկեր չկա",
+      "sale": "Զեղչ",
+      "addToBasket": "Ավելացնել զամբյուղ",
+      "addToBasketA11y": "Ավելացնել {{title}} զամբյուղ"
+    }
+  },
+  "basket": {
+    "title": "Զամբյուղ",
+    "empty": "Ձեր զամբյուղը դատարկ է։",
+    "clearAll": "Մաքրել ամբողջը",
+    "clearBasketA11y": "Մաքրել զամբյուղը",
+    "totalItems": "Ընդհանուր ապրանքներ՝ {{count}}",
+    "totalPrice": "Ընդհանուր գին՝ {{price}}",
+    "noImage": "Պատկեր չկա",
+    "remove": "Հեռացնել",
+    "removeItemA11y": "Հեռացնել {{name}} զամբյուղից",
+    "checkout": "Պատվիրել",
+    "checkoutA11y": "Անցնել պատվերին"
+  },
+  "quantity": {
+    "decreaseA11y": "Նվազեցնել քանակը",
+    "increaseA11y": "Ավելացնել քանակը"
+  },
+  "auth": {
+    "common": {
+      "emailPlaceholder": "Էլ․ փոստ",
+      "passwordPlaceholder": "Գաղտնաբառ",
+      "verificationCodePlaceholder": "Հաստատման կոդ",
+      "verifyCodeTitle": "Հաստատել կոդը",
+      "verify": "Հաստատել",
+      "resendCode": "Ուղարկել կոդը կրկին",
+      "resendCodeSuccess": "Կոդը կրկին ուղարկվեց։",
+      "startOver": "Սկսել նորից",
+      "errors": {
+        "invalidVerificationCode": "Սխալ հաստատման կոդ",
+        "resendCodeFailed": "Չհաջողվեց կրկին ուղարկել կոդը։ Խնդրում ենք փորձել նորից։"
+      }
+    },
+    "signIn": {
+      "title": "Բարի վերադարձ!",
+      "continue": "Շարունակել",
+      "forgotPassword": "Մոռացե՞լ եք գաղտնաբառը",
+      "noAccount": "Չունե՞ք հաշիվ",
+      "signUp": "Գրանցվել",
+      "errors": {
+        "failed": "Մուտքը ձախողվեց",
+        "invalidPassword": "Սխալ գաղտնաբառ",
+        "emailNotFound": "Էլ․ փոստը չի գտնվել"
+      }
+    },
+    "signUp": {
+      "title": "Ստեղծել հաշիվ",
+      "submit": "Գրանցվել",
+      "haveAccount": "Արդեն ունե՞ք հաշիվ",
+      "signIn": "Մուտք",
+      "errors": {
+        "failed": "Գրանցումը ձախողվեց",
+        "weakPassword": "Գաղտնաբառը թույլ է կամ հայտնաբերվել է արտահոսքում։ Փորձեք այլ տարբերակ։"
+      }
+    },
+    "forgotPassword": {
+      "title": "Մոռացել եք գաղտնաբառը",
+      "sendCode": "Ուղարկել վերականգնման կոդ",
+      "errors": {
+        "startFailed": "Չհաջողվեց սկսել վերականգնումը։",
+        "sendCodeFailed": "Չհաջողվեց ուղարկել վերականգնման կոդը։"
+      }
+    },
+    "resetPassword": {
+      "title": "Վերակայել գաղտնաբառը",
+      "newPasswordPlaceholder": "Նոր գաղտնաբառ",
+      "updatePassword": "Թարմացնել գաղտնաբառը",
+      "errors": {
+        "resetFailed": "Չհաջողվեց վերակայել գաղտնաբառը։",
+        "sessionNotCompleted": "Գաղտնաբառը թարմացվեց, բայց սեսիան չավարտվեց։"
+      }
+    }
+  },
+  "userDetails": {
+    "title": "Լրացրեք ձեր պրոֆիլը",
+    "subtitle": "Ավելացրեք ձեր անունը, ազգանունը և հեռախոսահամարը։",
+    "firstNamePlaceholder": "Անուն",
+    "lastNamePlaceholder": "Ազգանուն",
+    "phonePlaceholder": "Հեռախոսահամար",
+    "continue": "Շարունակել",
+    "saving": "Պահպանում...",
+    "continueA11y": "Շարունակել դեպի հավելված",
+    "errors": {
+      "authFailed": "Չհաջողվեց հաստատել սեսիան։ Խնդրում ենք նորից մուտք գործել։",
+      "saveFailed": "Չհաջողվեց պահպանել տվյալները։ Խնդրում ենք փորձել նորից։"
+    },
+    "validation": {
+      "firstNameRequired": "Անունը պարտադիր է",
+      "firstNameMin": "Անունը պետք է լինի առնվազն 2 նիշ",
+      "lastNameRequired": "Ազգանունը պարտադիր է",
+      "lastNameMin": "Ազգանունը պետք է լինի առնվազն 2 նիշ",
+      "phoneRequired": "Հեռախոսահամարը պարտադիր է",
+      "phoneInvalid": "Մուտքագրեք վավեր հեռախոսահամար"
+    }
+  },
   "more": {
     "title": "Հաշիվ",
     "profile": {
       "loading": "Տվյալների բեռնում...",
       "error": "Չհաջողվեց բեռնել պրոֆիլի տվյալները։",
-      "retry": "Կրկին"
+      "retry": "Կրկին",
+      "guestUser": "Հյուր օգտատեր",
+      "guestEmail": "guest@example.com"
     },
     "menu": {
       "editProfile": {

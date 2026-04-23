@@ -1,5 +1,6 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
+import { useTranslation } from "@/src/hooks/UseTranslation";
 
 interface QuantitySelectorProps {
   value: number;
@@ -11,6 +12,7 @@ interface QuantitySelectorProps {
 
 export const QuantitySelector = React.memo<QuantitySelectorProps>(
   ({ value, min = 1, max = 20, onChange, unit }) => {
+    const { t } = useTranslation();
     const isDecreaseDisabled = value <= min;
     const isIncreaseDisabled = value >= max;
 
@@ -34,7 +36,7 @@ export const QuantitySelector = React.memo<QuantitySelectorProps>(
       <View className="flex-row items-center justify-between rounded-full w-full bg-neutral-100 px-1 py-1">
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Decrease quantity"
+          accessibilityLabel={t("quantity.decreaseA11y")}
           onPress={handleDecrease}
           disabled={isDecreaseDisabled}
           className={`min-h-[36px] min-w-[36px] items-center justify-center rounded-full ${
@@ -56,7 +58,7 @@ export const QuantitySelector = React.memo<QuantitySelectorProps>(
 
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Increase quantity"
+          accessibilityLabel={t("quantity.increaseA11y")}
           onPress={handleIncrease}
           disabled={isIncreaseDisabled}
           className={`min-h-[36px] min-w-[36px] items-center justify-center rounded-full ${

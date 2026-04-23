@@ -111,9 +111,9 @@ export default function MoreScreen() {
   }, [loadUserDetails]);
 
   const userName =
-    apiUser?.name || user?.fullName || user?.firstName || "Guest User";
+    apiUser?.name || user?.fullName || user?.firstName || t("more.profile.guestUser");
   const userEmail =
-    user?.primaryEmailAddress?.emailAddress || "guest@example.com";
+    user?.primaryEmailAddress?.emailAddress || t("more.profile.guestEmail");
   const userImage = apiUser?.image || user?.imageUrl;
 
   const handleRetry = React.useCallback(() => {

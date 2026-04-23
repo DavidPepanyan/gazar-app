@@ -3,6 +3,7 @@ import React from "react";
 import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
 import { QuantitySelector } from "../shared/QuantitySelector";
 import { useBasketStore } from "../../store/basket.store";
+import { useTranslation } from "@/src/hooks/UseTranslation";
 import {
   fetchHomeFavoriteProducts,
   HomeFavoriteProduct,
@@ -23,18 +24,29 @@ const getDiscountedPrice = (product: HomeFavoriteProduct): number => {
 };
 
 export const FavoriteProudcts = React.memo(() => {
+  const { t, i18n } = useTranslation();
   const [products, setProducts] = React.useState<HomeFavoriteProduct[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [quantities, setQuantities] = React.useState<Record<number, number>>({});
   const [addingState, setAddingState] = React.useState<Record<number, boolean>>({});
   const addItem = useBasketStore((state) => state.addItem);
   const addTimeoutsRef = React.useRef<Record<number, ReturnType<typeof setTimeout>>>({});
+  const apiLanguage = React.useMemo(() => {
+    const language = (i18n.resolvedLanguage || i18n.language || "en").toLowerCase();
+    if (language.startsWith("hy")) {
+      return "HY";
+    }
+    if (language.startsWith("ru")) {
+      return "RU";
+    }
+    return "EN";
+  }, [i18n.language, i18n.resolvedLanguage]);
 
   const loadFavoriteProducts = React.useCallback(async () => {
     setIsLoading(true);
 
     try {
-      const data = await fetchHomeFavoriteProducts("EN");
+      const data = await fetchHomeFavoriteProducts(apiLanguage);
       setProducts(data);
       setQuantities(() =>
         Object.fromEntries(data.map((product) => [product.id, product.minLimit])),
@@ -45,7 +57,7 @@ export const FavoriteProudcts = React.memo(() => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [apiLanguage]);
 
   React.useEffect(() => {
     void loadFavoriteProducts();
@@ -108,7 +120,7 @@ export const FavoriteProudcts = React.memo(() => {
     return (
       <View className="mt-4">
         <View className="mx-6 mb-3 flex-row items-center justify-between">
-          <Text className="text-lg font-bold text-gray-900">Favorite products</Text>
+          <Text className="text-lg font-bold text-gray-900">{t("home.favoriteProductsTitle")}</Text>
         </View>
         <View className="mx-6 h-[120px] items-center justify-center rounded-3xl bg-gray-50">
           <ActivityIndicator size="small" color="#7ac943" />
@@ -124,7 +136,7 @@ export const FavoriteProudcts = React.memo(() => {
   return (
     <View className="mt-4">
       <View className="mx-6 mb-3 flex-row items-center justify-between">
-        <Text className="text-lg font-bold text-gray-900">Favorite products</Text>
+        <Text className="text-lg font-bold text-gray-900">{t("home.favoriteProductsTitle")}</Text>
       </View>
 
       <ScrollView
@@ -155,13 +167,13 @@ export const FavoriteProudcts = React.memo(() => {
                   />
                 ) : (
                   <View className="h-full w-full items-center justify-center">
-                    <Text className="text-xs font-semibold text-gray-500">No image</Text>
+                    <Text className="text-xs font-semibold text-gray-500">{t("home.product.noImage")}</Text>
                   </View>
                 )}
 
                 {hasDiscount ? (
                   <View className="absolute left-2 top-2 rounded-full bg-red-500 px-2 py-1">
-                    <Text className="text-xs font-bold text-white">Sale</Text>
+                    <Text className="text-xs font-bold text-white">{t("home.product.sale")}</Text>
                   </View>
                 ) : null}
               </View>
@@ -197,7 +209,9 @@ export const FavoriteProudcts = React.memo(() => {
 
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={`Add ${product.title} to basket`}
+                accessibilityLabel={t("home.product.addToBasketA11y", {
+                  title: product.title,
+                })}
                 onPress={() => handleAddToBasket(product)}
                 disabled={isAdding}
                 className="mt-3 min-h-[44px] items-center justify-center rounded-full bg-primary"
@@ -205,7 +219,7 @@ export const FavoriteProudcts = React.memo(() => {
                 {isAdding ? (
                   <ActivityIndicator size="small" color="#ffffff" />
                 ) : (
-                  <Text className="text-sm font-bold text-white">Add to basket</Text>
+                  <Text className="text-sm font-bold text-white">{t("home.product.addToBasket")}</Text>
                 )}
               </Pressable>
             </View>

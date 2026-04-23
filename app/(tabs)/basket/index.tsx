@@ -2,6 +2,7 @@ import { Image } from "expo-image";
 import { Link } from "expo-router";
 import React from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
+import { useTranslation } from "@/src/hooks/UseTranslation";
 import { QuantitySelector } from "../../../src/components/shared/QuantitySelector";
 import {
   useBasketItems,
@@ -11,6 +12,7 @@ import {
 } from "../../../src/store/basket.store";
 
 export default function BasketScreen() {
+  const { t } = useTranslation();
   const basketItems = useBasketItems();
   const totalItems = useBasketTotalItems();
   const totalPrice = useBasketTotalPrice();
@@ -46,9 +48,9 @@ export default function BasketScreen() {
   if (!basketItems.length) {
     return (
       <View className="flex-1 items-center justify-center bg-white px-6">
-        <Text className="text-2xl font-bold text-gray-900">Basket</Text>
+        <Text className="text-2xl font-bold text-gray-900">{t("basket.title")}</Text>
         <Text className="mt-2 text-center text-base text-gray-500">
-          Your basket is empty.
+          {t("basket.empty")}
         </Text>
       </View>
     );
@@ -61,21 +63,23 @@ export default function BasketScreen() {
         contentContainerClassName="px-4 pb-8 pt-14"
       >
         <View className="mb-4 flex-row items-center justify-between">
-          <Text className="text-2xl font-bold text-gray-900">Basket</Text>
+          <Text className="text-2xl font-bold text-gray-900">{t("basket.title")}</Text>
           <Pressable
             onPress={clearBasket}
             
             accessibilityRole="button"
-            accessibilityLabel="Clear basket"
+            accessibilityLabel={t("basket.clearBasketA11y")}
           >
-            <Text className="text-sm font-semibold text-red-600">Clear all</Text>
+            <Text className="text-sm font-semibold text-red-600">{t("basket.clearAll")}</Text>
           </Pressable>
         </View>
 
         <View className="mb-4 rounded-2xl border border-primary/15 p-4">
-          <Text className="text-sm text-gray-700">Total items: {totalItems}</Text>
+          <Text className="text-sm text-gray-700">
+            {t("basket.totalItems", { count: totalItems })}
+          </Text>
           <Text className="mt-1 text-lg font-bold text-primary">
-            Total price: {formatPrice(totalPrice)}
+            {t("basket.totalPrice", { price: formatPrice(totalPrice) })}
           </Text>
         </View>
 
@@ -98,7 +102,7 @@ export default function BasketScreen() {
                       style={{ width: 88, height: 88 }}
                     />
                   ) : (
-                    <Text className="text-xs text-gray-500">No image</Text>
+                    <Text className="text-xs text-gray-500">{t("basket.noImage")}</Text>
                   )}
                 </View>
 
@@ -138,9 +142,9 @@ export default function BasketScreen() {
                 onPress={() => removeItem(item.id)}
                 className="mt-3 min-h-[40px] items-center justify-center rounded-full bg-gray-100"
                 accessibilityRole="button"
-                accessibilityLabel={`Remove ${item.name} from basket`}
+                accessibilityLabel={t("basket.removeItemA11y", { name: item.name })}
               >
-                <Text className="text-sm font-semibold text-gray-700">Remove</Text>
+                <Text className="text-sm font-semibold text-gray-700">{t("basket.remove")}</Text>
               </Pressable>
             </View>
           );
@@ -150,9 +154,9 @@ export default function BasketScreen() {
           <Pressable
             className="mt-2 min-h-[48px] items-center justify-center rounded-full bg-primary"
             accessibilityRole="button"
-            accessibilityLabel="Go to checkout"
+            accessibilityLabel={t("basket.checkoutA11y")}
           >
-            <Text className="text-base font-bold text-white">Checkout</Text>
+            <Text className="text-base font-bold text-white">{t("basket.checkout")}</Text>
           </Pressable>
         </Link>
       </ScrollView>

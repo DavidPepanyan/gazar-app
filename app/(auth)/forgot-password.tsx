@@ -2,10 +2,12 @@ import { useSignIn } from "@clerk/expo";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
+import { useTranslation } from "@/src/hooks/UseTranslation";
 
 export default function ForgotPassword() {
   const { signIn, fetchStatus } = useSignIn();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [email, setEmail] = React.useState("");
   const [formError, setFormError] = React.useState("");
@@ -17,14 +19,14 @@ export default function ForgotPassword() {
       identifier: email.trim(),
     });
     if (createError) {
-      setFormError(createError.message || "Could not start reset flow.");
+      setFormError(createError.message || t("auth.forgotPassword.errors.startFailed"));
       return;
     }
 
     const { error: sendCodeError } =
       await signIn.resetPasswordEmailCode.sendCode();
     if (sendCodeError) {
-      setFormError(sendCodeError.message || "Could not send reset code.");
+      setFormError(sendCodeError.message || t("auth.forgotPassword.errors.sendCodeFailed"));
       return;
     }
 
@@ -39,7 +41,7 @@ export default function ForgotPassword() {
       <Stack.Screen options={{ headerShown: false }} />
       <View className="flex-1 bg-white px-8 justify-center">
         <Text className="text-2xl font-bold text-center mb-6">
-          Forgot Password
+          {t("auth.forgotPassword.title")}
         </Text>
 
         {!!formError && (
@@ -47,7 +49,7 @@ export default function ForgotPassword() {
         )}
 
         <TextInput
-          placeholder="Email"
+          placeholder={t("auth.common.emailPlaceholder")}
           placeholderTextColor="#9CA3AF"
           value={email}
           onChangeText={setEmail}
@@ -62,7 +64,7 @@ export default function ForgotPassword() {
           className="bg-primary py-4 rounded-2xl items-center opacity-100 disabled:opacity-50"
         >
           <Text className="text-white font-semibold text-base">
-            Send reset code
+            {t("auth.forgotPassword.sendCode")}
           </Text>
         </Pressable>
       </View>

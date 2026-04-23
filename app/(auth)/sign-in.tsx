@@ -13,11 +13,13 @@ import {
     TouchableWithoutFeedback,
     View,
 } from "react-native";
+import { useTranslation } from "@/src/hooks/UseTranslation";
 
 export default function SignIn() {
   const { signIn, fetchStatus } = useSignIn();
   const { isSignedIn, isLoaded } = useAuth();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [emailAddress, setEmailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -40,12 +42,12 @@ export default function SignIn() {
     });
 
     if (error) {
-      const msg = error.message || "Sign in failed";
+      const msg = error.message || t("auth.signIn.errors.failed");
 
       if (msg.toLowerCase().includes("password")) {
-        setFormError("Invalid password");
+        setFormError(t("auth.signIn.errors.invalidPassword"));
       } else if (msg.toLowerCase().includes("identifier")) {
-        setFormError("Email not found");
+        setFormError(t("auth.signIn.errors.emailNotFound"));
       } else {
         setFormError(msg);
       }
@@ -78,7 +80,7 @@ export default function SignIn() {
     });
 
     if (error) {
-      setFormError("Invalid verification code");
+      setFormError(t("auth.common.errors.invalidVerificationCode"));
       return;
     }
 
@@ -97,11 +99,11 @@ export default function SignIn() {
 
     const { error } = await signIn.mfa.sendEmailCode();
     if (error) {
-      setFormError("Could not resend code. Please try again.");
+      setFormError(t("auth.common.errors.resendCodeFailed"));
       return;
     }
 
-    setResendMessage("Code was resent.");
+    setResendMessage(t("auth.common.resendCodeSuccess"));
   };
 
   if (!isLoaded) {
@@ -137,7 +139,7 @@ export default function SignIn() {
 
               {/* TITLE */}
               <Text className="text-2xl font-bold text-center mt-28 mb-8 text-gray-800">
-                {isMfaStep ? "Verify code" : "Welcome Back !"}
+                {isMfaStep ? t("auth.common.verifyCodeTitle") : t("auth.signIn.title")}
               </Text>
 
               {/* ERROR */}
@@ -153,7 +155,7 @@ export default function SignIn() {
               {!isMfaStep ? (
                 <View>
                   <TextInput
-                    placeholder="Email"
+                    placeholder={t("auth.common.emailPlaceholder")}
                     placeholderTextColor="#9CA3AF"
                     className="rounded-2xl px-4 py-4 mb-4 text-base bg-gray-200 leading-0 "
                     value={emailAddress}
@@ -164,12 +166,12 @@ export default function SignIn() {
                     className="self-end mb-3"
                   >
                     <Text className="text-primary font-medium">
-                      Forgot password?
+                      {t("auth.signIn.forgotPassword")}
                     </Text>
                   </Pressable>
 
                   <TextInput
-                    placeholder="Password"
+                    placeholder={t("auth.common.passwordPlaceholder")}
                     placeholderTextColor="#9CA3AF"
                     secureTextEntry
                     className="rounded-2xl px-4 py-4 mb-6 text-base bg-gray-200 leading-0 "
@@ -185,14 +187,14 @@ export default function SignIn() {
                     className="bg-primary py-4 rounded-2xl items-center mb-4 opacity-100 disabled:opacity-50"
                   >
                     <Text className="text-white font-semibold text-base">
-                      Continue
+                      {t("auth.signIn.continue")}
                     </Text>
                   </Pressable>
                 </View>
               ) : (
                 <View>
                   <TextInput
-                    placeholder="Verification code"
+                    placeholder={t("auth.common.verificationCodePlaceholder")}
                     placeholderTextColor="#9CA3AF"
                     keyboardType="numeric"
                     className="rounded-2xl px-4 py-4 mb-6 text-base bg-gray-200 leading-0 "
@@ -206,7 +208,7 @@ export default function SignIn() {
                     className="bg-primary py-4 rounded-2xl items-center mb-4"
                   >
                     <Text className="text-white font-semibold text-base">
-                      Verify
+                      {t("auth.common.verify")}
                     </Text>
                   </Pressable>
 
@@ -219,7 +221,7 @@ export default function SignIn() {
                     }`}
                   >
                     <Text className="text-center text-gray-500">
-                      Resend code
+                      {t("auth.common.resendCode")}
                     </Text>
                   </Pressable>
                   {!!resendMessage && (
@@ -230,7 +232,7 @@ export default function SignIn() {
 
                   <Pressable onPress={() => signIn.reset()}>
                     <Text className="text-center text-gray-400 mt-4">
-                      Start over
+                      {t("auth.common.startOver")}
                     </Text>
                   </Pressable>
                 </View>
@@ -239,12 +241,12 @@ export default function SignIn() {
               {/* FOOTER */}
               <View className="mt-auto items-center pb-28">
                 <Text className="text-gray-500">
-                  Don’t have an account?{" "}
+                  {t("auth.signIn.noAccount")}{" "}
                   <Text
                     className="text-primary font-semibold"
                     onPress={() => router.push("/(auth)/sign-up")}
                   >
-                    Sign up
+                    {t("auth.signIn.signUp")}
                   </Text>
                 </Text>
               </View>

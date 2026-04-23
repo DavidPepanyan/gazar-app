@@ -2,12 +2,14 @@ import { useAuth, useSignIn } from "@clerk/expo";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
+import { useTranslation } from "@/src/hooks/UseTranslation";
 
 export default function ResetPassword() {
   const { signIn, fetchStatus } = useSignIn();
   const { isSignedIn } = useAuth();
   const router = useRouter();
   const { email } = useLocalSearchParams<{ email?: string }>();
+  const { t } = useTranslation();
 
   const [code, setCode] = React.useState("");
   const [newPassword, setNewPassword] = React.useState("");
@@ -21,7 +23,9 @@ export default function ResetPassword() {
         code: code.trim(),
       });
     if (verifyError) {
-      setFormError(verifyError.message || "Invalid verification code.");
+      setFormError(
+        verifyError.message || t("auth.common.errors.invalidVerificationCode"),
+      );
       return;
     }
 
@@ -30,7 +34,7 @@ export default function ResetPassword() {
         password: newPassword,
       });
     if (submitError) {
-      setFormError(submitError.message || "Could not reset password.");
+      setFormError(submitError.message || t("auth.resetPassword.errors.resetFailed"));
       return;
     }
 
@@ -48,7 +52,7 @@ export default function ResetPassword() {
       return;
     }
 
-    setFormError("Password updated, but your session was not completed.");
+    setFormError(t("auth.resetPassword.errors.sessionNotCompleted"));
   };
 
   return (
@@ -56,7 +60,7 @@ export default function ResetPassword() {
       <Stack.Screen options={{ headerShown: false }} />
       <View className="flex-1 bg-white px-8 justify-center">
         <Text className="text-2xl font-bold text-center mb-2">
-          Reset Password
+          {t("auth.resetPassword.title")}
         </Text>
         {!!email && (
           <Text className="text-gray-500 text-center mb-6">{email}</Text>
@@ -67,7 +71,7 @@ export default function ResetPassword() {
         )}
 
         <TextInput
-          placeholder="Verification code"
+          placeholder={t("auth.common.verificationCodePlaceholder")}
           placeholderTextColor="#9CA3AF"
           keyboardType="numeric"
           value={code}
@@ -76,7 +80,7 @@ export default function ResetPassword() {
         />
 
         <TextInput
-          placeholder="New password"
+          placeholder={t("auth.resetPassword.newPasswordPlaceholder")}
           placeholderTextColor="#9CA3AF"
           secureTextEntry
           value={newPassword}
@@ -90,7 +94,7 @@ export default function ResetPassword() {
           className="bg-primary py-4 rounded-2xl items-center opacity-100 disabled:opacity-50"
         >
           <Text className="text-white font-semibold text-base">
-            Update password
+            {t("auth.resetPassword.updatePassword")}
           </Text>
         </Pressable>
       </View>
