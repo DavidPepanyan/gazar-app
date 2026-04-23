@@ -29,6 +29,17 @@ export default function RootLayout() {
             },
           }}
         />
+        <Stack.Screen
+          name="privacy-policy"
+          options={{
+            headerShown: true,
+            presentation: "card",
+            headerBackButtonDisplayMode: "minimal",
+            contentStyle: {
+              backgroundColor: "#ffffff",
+            },
+          }}
+        />
         <Stack.Screen name="user-details" options={{ headerShown: false }} />
       </Stack>
     </ClerkProvider>

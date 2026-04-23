@@ -183,5 +183,41 @@
       "ru": "Russian",
       "en": "English"
     }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "headerTitle": "Privacy Policy",
+    "backButtonA11y": "Go back",
+    "intro": "This Privacy Policy describes how we use your personal information.",
+    "collectionTitle": "Collection of Information",
+    "collectionBody": "We may collect and store the following personal information:\nemail postal address, full name, telephone number(s). Bank details if you paid for the order by bank transfer. We do NOT own any of your payment (credit or debit) card details, as online payments on our website are made exclusively through Arca and AmeriaBank payment systems. Your purchase history on the Site, list of preferred products, etc. Shipping address(es), additional information provided for shipping. Correspondence with Us (including chat and e-mails).",
+    "usageTitle": "Use of Information",
+    "usageBody": "The primary purpose of collecting personal information for us is to provide you with safe, convenient, efficient and personalized services. You hereby agree that we may use your personal information to:\nProviding the services and assistance you request. Measuring and improving the quality of our services, content and advertising. Call or email in non-standard situations verifying or reporting additional information by mail. Confirming an order, informing about incorrectly filled fields, sending in response to your question and sending other types of e-mails (for example, promo offers if you subscribe to our mailing service).",
+    "nonDisclosureTitle": "Non-Disclosure of Information",
+    "nonDisclosureBody": "The information you provide to us is considered strictly confidential and may not be provided to any third party."
+  },
+  "termsOfUse": {
+    "title": "Terms of Use",
+    "intro": "By using Gazar.am, you give your consent to the terms and conditions below, as well as our Privacy Policy. Please read them carefully and print and save as necessary. You can familiarize yourself with the terms of delivery and payment in the Shipping & Payment section. The terms \"Gazar.am\" and \"We\" refer to this website (hereinafter: Website) owned by \"GAZAR.AEM\" LLC (hereinafter: Company). The term \"you\" refers to users of this website or viewers. The Company reserves the right from time to time to make changes to the content of the Website, \"Privacy Policy\" and these \"Terms of Use\". Terms are defined and interpreted according to RA legislation.",
+    "eligibilityTitle": "Identify the categories",
+    "eligibilityBody": "You must be over 18 years old to register at Gazar.am. You certify that the data provided at or after registration is accurate and complete.",
+    "communicationTitle": "Emails and Communications",
+    "communicationBody": "When you visit the Site or email us, you are communicating with us. We communicate with you by sending e-mails or notices on the Site and by posting information. To properly formalize mutual transactions, you consent to receive our electronic communication. Gazar.am sends emails of the following nature: in response to your letters; a letter confirming the order including all related information; letters about delivery or cancellation of the order. Emails about our news, various promotions, etc. will only be received if you are subscribed to our mailing service.",
+    "linksTitle": "Links",
+    "linksBody": "Some links on the site may lead to other sites that are not under Gazar.am control. By clicking on any of these links, you leave the Gazar.am website. The application of these terms does not apply to websites where you move by clicking the links posted on Gazar.am.",
+    "returnsTitle": "Return or Exchange of Ordered Product",
+    "returnsBody": "Taking into account that a significant part of the range of agricultural products does not have a defined shelf life and the appearance of products is also very important, we take back products that the customer did not like or that were not suitable for operation. Our customers do not pay for a product they do not accept, and we change ordered products at the customer's request. If the customer has already paid for the product but does not like the quality or the product is not suitable for use, Gazar.am refunds the full amount of the product.",
+    "liabilityTitle": "Website Liability",
+    "liabilityBody": "The order placed on the Gazar.am website is an offer made by you to the Company to buy and receive an item via delivery. That offer is considered accepted if we send an order confirmation letter to your e-mail with all order details. Such letter is deemed to be a contract between the Site and you. From the moment of delivery, the product comes under your control and the Company assumes no responsibility for quality or integrity. The Company is released from liability for non-performance or delayed performance if it is due to reasons beyond our control. If any of these conditions is recognized by an authorized body as invalid, illegal or unenforceable, that term will be severed from the remaining terms, which continue in effect."
+  },
+  "orderDelivery": {
+    "title": "Order and delivery",
+    "intro": "This section describes how to place an order and how delivery and returns are handled.",
+    "howToOrderTitle": "How to Order from the Site",
+    "howToOrderBody": "To place an order from the website, follow these steps:\n1. Select the product you want to buy from the list in our online store.\n2. After selecting the product, choose quantity and click Add. You will see a green indication that the product is already in the basket.\n3. Repeat steps 1 and 2 for all products you want to buy.\n4. Click the basket icon in the top-right part of the website to open your basket page with selected products.\n5. Fill in Phone Number, Shipping Address, and Notes fields and click the Order button.\n6. If this is your first order, confirm your phone number with the verification code sent by SMS in the pop-up after clicking Order.\n7. After phone confirmation, you will receive an order confirmation message and it will be delivered at the specified time.",
+    "shippingTermsTitle": "Shipping Terms",
+    "shippingTermsBody": "Delivery is made only in the city of Yerevan and at the times indicated on the website. One of the most important functions of Gazar.am is to deliver ordered products on time and safely, therefore delivery is made by knowledgeable and experienced couriers. For wholesale orders, special conditions apply for delivery times and parcel storage.",
+    "returnPolicyTitle": "Return Policy",
+    "returnPolicyBody": "Taking into account that a significant part of agricultural products does not have a defined shelf life and appearance is important for many products, we accept products that the customer did not like or that were not suitable for use. Customers do not pay for products they do not accept, and we can exchange ordered products at the customer's request. If the customer has already paid, but the quality is unsatisfactory or the product is not suitable for use, Gazar.am refunds the full amount."
   }
 }
