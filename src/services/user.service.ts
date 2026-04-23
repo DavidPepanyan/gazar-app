@@ -8,6 +8,8 @@ export interface UserProfile {
   name?: string;
   lastName?: string;
   phone?: string;
+  companyName?: string | null;
+  companyTin?: string | null;
   image?: string;
 }
 
@@ -15,6 +17,8 @@ export interface UpdateUserDetailsPayload {
   name: string;
   lastName: string;
   phone: string;
+  companyName?: string | null;
+  companyTin?: string | null;
 }
 
 const getAuthHeaders = (token: string) => ({

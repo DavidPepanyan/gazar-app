@@ -25,12 +25,15 @@ interface UserDetailsFormValues {
   firstName: string;
   lastName: string;
   phoneNumber: string;
+  companyName: string;
+  companyTin: string;
 }
 
 export default function UserDetailsScreen() {
   const router = useRouter();
   const { t } = useTranslation();
   const { isSignedIn, isLoaded, getToken } = useAuth();
+  const hasLoadedInitialValuesRef = React.useRef(false);
   const [submitError, setSubmitError] = React.useState("");
   const userDetailsSchema = React.useMemo(
     () =>
@@ -50,10 +53,12 @@ export default function UserDetailsScreen() {
           .trim()
           .min(1, t("userDetails.validation.phoneRequired"))
           .regex(/^\+?[0-9]{7,15}$/, t("userDetails.validation.phoneInvalid")),
+        companyName: z.string().trim(),
+        companyTin: z.string().trim(),
       }),
     [t],
   );
-
+  
   const {
     control,
     handleSubmit,
@@ -66,36 +71,43 @@ export default function UserDetailsScreen() {
       firstName: "",
       lastName: "",
       phoneNumber: "",
+      companyName: "",
+      companyTin: "",
     },
   });
 
-  React.useEffect(() => {
-    const loadInitialValues = async () => {
-      const token = await getToken();
-      if (!token) {
+  const loadInitialValues = React.useCallback(async () => {
+    const token = await getToken();
+    if (!token) {
+      return;
+    }
+
+    try {
+      const data = await fetchCurrentUserProfile(token);
+      if (!data) {
         return;
       }
 
-      try {
-        const data = await fetchCurrentUserProfile(token);
-        if (!data) {
-          return;
-        }
-
-        reset({
-          firstName: data.name?.trim() ?? "",
-          lastName: data.lastName?.trim() ?? "",
-          phoneNumber: data.phone?.trim() ?? "",
-        });
-      } catch {
-        // Keep empty defaults if fetch fails.
-      }
-    };
-
-    if (isLoaded && isSignedIn) {
-      void loadInitialValues();
+      reset({
+        firstName: data.name?.trim() ?? "",
+        lastName: data.lastName?.trim() ?? "",
+        phoneNumber: data.phone?.trim() ?? "",
+        companyName: data.companyName?.trim() ?? "",
+        companyTin: data.companyTin?.trim() ?? "",
+      });
+    } catch {
+      // Keep empty defaults if fetch fails.
     }
-  }, [getToken, isLoaded, isSignedIn, reset]);
+  }, [getToken, reset]);
+
+  React.useEffect(() => {
+    if (!isLoaded || !isSignedIn || hasLoadedInitialValuesRef.current) {
+      return;
+    }
+
+    hasLoadedInitialValuesRef.current = true;
+    void loadInitialValues();
+  }, [isLoaded, isSignedIn, loadInitialValues]);
 
   const handleSaveUserDetails = async (values: UserDetailsFormValues) => {
     setSubmitError("");
@@ -107,11 +119,15 @@ export default function UserDetailsScreen() {
     }
 
     try {
-      await updateCurrentUserProfile(token, {
+      const payload: Parameters<typeof updateCurrentUserProfile>[1] = {
         name: values.firstName,
         lastName: values.lastName,
         phone: values.phoneNumber,
-      });
+        companyName: values.companyName.trim() || null,
+        companyTin: values.companyTin.trim() || null,
+      };
+
+      await updateCurrentUserProfile(token, payload);
 
       router.replace("/(tabs)/home");
     } catch {
@@ -220,6 +236,36 @@ export default function UserDetailsScreen() {
                       </Text>
                     )}
                   </>
+                )}
+              />
+
+              <Controller
+                control={control}
+                name="companyName"
+                render={({ field: { value, onChange, onBlur } }) => (
+                  <TextInput
+                    placeholder={t("userDetails.companyNamePlaceholder")}
+                    placeholderTextColor="#9CA3AF"
+                    className="rounded-2xl px-4 py-4 text-base bg-gray-200 mt-2"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                  />
+                )}
+              />
+
+              <Controller
+                control={control}
+                name="companyTin"
+                render={({ field: { value, onChange, onBlur } }) => (
+                  <TextInput
+                    placeholder={t("userDetails.companyTinPlaceholder")}
+                    placeholderTextColor="#9CA3AF"
+                    className="rounded-2xl px-4 py-4 text-base bg-gray-200 mt-2"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                  />
                 )}
               />
 

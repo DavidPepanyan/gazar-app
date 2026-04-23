@@ -118,6 +118,8 @@
     "firstNamePlaceholder": "Անուն",
     "lastNamePlaceholder": "Ազգանուն",
     "phonePlaceholder": "Հեռախոսահամար",
+    "companyNamePlaceholder": "Ընկերության անվանումը (ոչ պարտադիր)",
+    "companyTinPlaceholder": "Ընկերության ՀՎՀՀ (ոչ պարտադիր)",
     "continue": "Շարունակել",
     "saving": "Պահպանում...",
     "continueA11y": "Շարունակել դեպի հավելված",

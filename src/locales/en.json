@@ -118,6 +118,8 @@
     "firstNamePlaceholder": "First name",
     "lastNamePlaceholder": "Last name",
     "phonePlaceholder": "Phone number",
+    "companyNamePlaceholder": "Company name (optional)",
+    "companyTinPlaceholder": "Company TIN (optional)",
     "continue": "Continue",
     "saving": "Saving...",
     "continueA11y": "Continue to app",

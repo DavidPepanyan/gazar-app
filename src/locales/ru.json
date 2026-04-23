@@ -118,6 +118,8 @@
     "firstNamePlaceholder": "Имя",
     "lastNamePlaceholder": "Фамилия",
     "phonePlaceholder": "Номер телефона",
+    "companyNamePlaceholder": "Название компании (необязательно)",
+    "companyTinPlaceholder": "ИНН компании (необязательно)",
     "continue": "Продолжить",
     "saving": "Сохранение...",
     "continueA11y": "Продолжить в приложение",
