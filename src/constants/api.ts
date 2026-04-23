@@ -8,4 +8,11 @@ export const API_ENDPOINTS = {
     `${API_BASE_URL}/home/categories?lan=${encodeURIComponent(lan)}`,
   HOME_FAVORITE_PRODUCTS: (lan: string) =>
     `${API_BASE_URL}/home/favorite-products?lan=${encodeURIComponent(lan)}`,
+  SHOP_PRODUCTS: (lan: string, categoryId?: number) => {
+    const params = new URLSearchParams({ lan });
+    if (typeof categoryId === "number") {
+      params.set("category", String(categoryId));
+    }
+    return `${API_BASE_URL}/products?${params.toString()}`;
+  },
 } as const;

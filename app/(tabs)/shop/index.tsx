@@ -1,12 +1,11 @@
-import { Text, View } from "react-native";
-import { useTranslation } from "@/src/hooks/UseTranslation";
+import { ShopCatalog } from "@/src/components/shop/ShopCatalog";
+import { useLocalSearchParams } from "expo-router";
 
 export default function ShopScreen() {
-  const { t } = useTranslation();
+  const { categoryId } = useLocalSearchParams<{ categoryId?: string }>();
+  const normalizedCategoryId = Array.isArray(categoryId) ? categoryId[0] : categoryId;
+  const parsedCategoryId = Number(normalizedCategoryId);
+  const selectedCategoryId = Number.isFinite(parsedCategoryId) ? parsedCategoryId : null;
 
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>{t("shop.title")}</Text>
-    </View>
-  );
+  return <ShopCatalog selectedCategoryId={selectedCategoryId} />;
 }

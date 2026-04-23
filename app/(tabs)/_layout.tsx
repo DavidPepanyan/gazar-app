@@ -1,7 +1,7 @@
+import { useTranslation } from "@/src/hooks/UseTranslation";
 import { useAuth } from "@clerk/expo";
 import { Redirect, Tabs } from "expo-router";
 import { House, Menu, ShoppingBag, ShoppingCart } from "lucide-react-native";
-import { useTranslation } from "@/src/hooks/UseTranslation";
 
 export default function TabsLayout() {
   const { isLoaded, isSignedIn } = useAuth();

@@ -1,13 +1,19 @@
 import { Image } from "expo-image";
 import React from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
 import { useTranslation } from "@/src/hooks/UseTranslation";
 import {
   fetchHomeCategories,
   HomeCategory,
 } from "../../services/home.service";
 
-export const Categories = React.memo(() => {
+interface CategoriesProps {
+  selectedCategoryId?: number | null;
+  onSelectCategory?: (category: HomeCategory) => void;
+}
+
+export const Categories = React.memo<CategoriesProps>(
+  ({ selectedCategoryId = null, onSelectCategory }) => {
   const { t, i18n } = useTranslation();
   const [categories, setCategories] = React.useState<HomeCategory[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -66,39 +72,55 @@ export const Categories = React.memo(() => {
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerClassName="px-6"
-            
       >
-        {categories.map((category, index) => (
-          <View
-            key={category.id}
-            className={`w-[84px] items-center ${index === categories.length - 1 ? "" : "mr-3"}`}
-          >
-            <View className="h-[84px] w-[84px] items-center justify-center rounded-full bg-primary/15">
-              {category.image ? (
-                <Image
-                  source={{ uri: category.image }}
-                  contentFit="contain"
-                  className="h-[60px] w-[60px]"
-                  style={{ width: 60, height: 60 }}
-                />
-              ) : (
-                <Text className="text-sm font-bold text-primary">
-                  {category.title[0]?.toUpperCase() || "C"}
-                </Text>
-              )}
-            </View>
+        {categories.map((category, index) => {
+          const isSelected = selectedCategoryId === category.id;
 
-            <Text
-              className="mt-2 text-center text-xs font-medium text-gray-700"
-              numberOfLines={2}
+          return (
+            <Pressable
+              key={category.id}
+              onPress={() => onSelectCategory?.(category)}
+              disabled={!onSelectCategory}
+              accessibilityRole={onSelectCategory ? "button" : undefined}
+              accessibilityLabel={category.title}
+              className={`w-[84px] items-center ${
+                index === categories.length - 1 ? "" : "mr-3"
+              }`}
             >
-              {category.title}
-            </Text>
-          </View>
-        ))}
+              <View
+                className={`h-[84px] w-[84px] items-center justify-center rounded-full ${
+                  isSelected ? "bg-primary/30" : "bg-primary/15"
+                }`}
+              >
+                {category.image ? (
+                  <Image
+                    source={{ uri: category.image }}
+                    contentFit="contain"
+                    className="h-[60px] w-[60px]"
+                    style={{ width: 60, height: 60 }}
+                  />
+                ) : (
+                  <Text className="text-sm font-bold text-primary">
+                    {category.title[0]?.toUpperCase() || "C"}
+                  </Text>
+                )}
+              </View>
+
+              <Text
+                className={`mt-2 text-center text-xs font-medium ${
+                  isSelected ? "text-primary" : "text-gray-700"
+                }`}
+                numberOfLines={2}
+              >
+                {category.title}
+              </Text>
+            </Pressable>
+          );
+        })}
       </ScrollView>
     </View>
   );
-});
+  },
+);
 
 Categories.displayName = "Categories";

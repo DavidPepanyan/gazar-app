@@ -12,7 +12,9 @@
     "more": "More"
   },
   "shop": {
-    "title": "Shop"
+    "title": "Shop",
+    "loadingProducts": "Loading products...",
+    "noProducts": "No products found for this category."
   },
   "home": {
     "greeting": "Hello, {{name}}",

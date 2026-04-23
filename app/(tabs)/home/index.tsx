@@ -1,6 +1,6 @@
 ﻿import { useAuth } from "@clerk/expo";
 import { Image } from "expo-image";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { PhoneCall } from "lucide-react-native";
 import React from "react";
 import {
@@ -20,6 +20,7 @@ import { FavoriteProudcts } from "../../../src/components/home/FavoriteProudcts"
 import {
   fetchHomeMainSlider,
   HomeBanner,
+  HomeCategory,
 } from "../../../src/services/home.service";
 import {
   fetchCurrentUserProfile,
@@ -30,6 +31,7 @@ export default function Home() {
   const CONTACT_PHONE = "+374 55 456 454";
   const CONTACT_PHONE_URL = "tel:+37455456454";
   const { getToken } = useAuth();
+  const router = useRouter();
   const { t, i18n } = useTranslation();
   const [apiUser, setApiUser] = React.useState<UserProfile | null>(null);
   const apiLanguage = React.useMemo(() => {
@@ -97,6 +99,15 @@ export default function Home() {
 
   const userName = apiUser?.name || t("common.guest");
   const userInitial = userName[0]?.toUpperCase() || "G";
+  const handleCategoryPress = React.useCallback(
+    (category: HomeCategory) => {
+      router.push({
+        pathname: "/(tabs)/shop",
+        params: { categoryId: String(category.id) },
+      });
+    },
+    [router],
+  );
 
   return (
     <>
@@ -155,7 +166,7 @@ export default function Home() {
             )}
           </View>
 
-          <Categories />
+          <Categories onSelectCategory={handleCategoryPress} />
           <DeliveryInfo />
           <FavoriteProudcts />
         </ScrollView>
